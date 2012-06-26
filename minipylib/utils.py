@@ -7,25 +7,16 @@ Utility functions.
 Copyright (c) 2011-2012 Kevin Chan <kefin@makedostudio.com>
 
 * created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2012-05-12 kchan
+* updated: 2012-06-25 kchan
 """
 
 import sys
 import os
 import imp
 import hashlib
-import base64
-import hmac
 import codecs
-import string
 import itertools
-from random import choice
 import logging
-
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
 
 
 
@@ -53,7 +44,7 @@ def import_module(path):
     try:
         assert path is not None and os.path.isfile(path)
         src = open(path, 'rb')
-        m = hashlib.md5()
+        m = hashlib.sha1()
         m.update(path)
         module = imp.load_source(m.hexdigest(), path, src)
         src.close()
@@ -177,24 +168,6 @@ def write_file(path, data, encoding=default_encoding):
         return False
 
 
-def md5_for_file(path, block_size=2**10):
-    """
-    Calculate md5 checksum for file.
-
-    :param path: file system path for file
-    :returns: md5 hash in hex
-    """
-    f = open(path)
-    md5 = hashlib.md5()
-    while True:
-        data = f.read(block_size)
-        if not data:
-            break
-        md5.update(data)
-    f.close()
-    return md5.hexdigest()
-
-
 def delete_file(path):
     """
     Truncates file to zero size and
@@ -232,106 +205,6 @@ def uri_to_list(path):
     return path.split('/')
 
 
-### make hmac digest
-
-def make_digest(secret_key, *args):
-    """Return a hmac digest for arguments."""
-    h = hmac.new(secret_key, digestmod=hashlib.sha1)
-    for arg in args:
-        h.update(arg)
-    return h.hexdigest()
-
-
-### secret key generation
-
-DEFAULT_SECRET_KEY_SIZE = 50
-
-def gen_secret_key(keysize=DEFAULT_SECRET_KEY_SIZE, use_punctuation=False):
-    """
-    Generate secret key for encryption.
-
-    :param keysize: number of characters in key (default is 50)
-    :param use_punctuation: include punctuation characters (default: alphanumeric)
-    :returns: string
-    """
-    ch = string.letters + string.digits
-    if use_punctuation:
-        ch += string.punctuation
-    return ''.join([choice(ch) for i in range(keysize)])
-
-
-### RC4/Arcfour algorithm
-
-# from:
-# http://code.activestate.com/recipes/576736-rc4-arc4-arcfour-algorithm/
-
-## {{{ http://code.activestate.com/recipes/576736/ (r5)
-#!/usr/bin/env python
-#
-#      RC4, ARC4, ARCFOUR algorithm
-#
-#      Copyright (c) 2009 joonis new media
-#      Author: Thimo Kraemer <thimo.kraemer@joonis.de>
-#
-#      This program is free software; you can redistribute it and/or modify
-#      it under the terms of the GNU General Public License as published by
-#      the Free Software Foundation; either version 2 of the License, or
-#      (at your option) any later version.
-#
-#      This program is distributed in the hope that it will be useful,
-#      but WITHOUT ANY WARRANTY; without even the implied warranty of
-#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#      GNU General Public License for more details.
-#
-#      You should have received a copy of the GNU General Public License
-#      along with this program; if not, write to the Free Software
-#      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#      MA 02110-1301, USA.
-#
-
-def rc4crypt(data, key):
-    x = 0
-    box = range(256)
-    for i in range(256):
-        x = (x + box[i] + ord(key[i % len(key)])) % 256
-        box[i], box[x] = box[x], box[i]
-    x = 0
-    y = 0
-    out = []
-    for char in data:
-        x = (x + 1) % 256
-        y = (y + box[x]) % 256
-        box[x], box[y] = box[y], box[x]
-        out.append(chr(ord(char) ^ box[(box[x] + box[y]) % 256]))
-
-    return ''.join(out)
-## end of http://code.activestate.com/recipes/576736/ }}}
-
-
-### encode/decode functions using RC4
-
-def encode_data(data, secret_key, encoder=None):
-    """
-    Encode data (dict) using encryption, pickle and base64.b16encode.
-
-    :param data: any Python data structure
-    :returns: string
-    """
-    if encoder is None:
-        encoder = rc4crypt
-    return base64.b16encode(encoder(pickle.dumps(data), secret_key))
-
-
-def decode_data(encrypted, secret_key, decoder=None):
-    """
-    Decode data.
-
-    :param encrypted: encoded string to be decoded.
-    :returns: data structure.
-    """
-    if decoder is None:
-        decoder = rc4crypt
-    return pickle.loads(decoder(base64.b16decode(encrypted), secret_key))
 
 
 ### data object class for storing generic dict key/value pairs
