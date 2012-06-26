@@ -10,3 +10,5 @@ build/
 tools/
 UNUSED/
 minipylib.egg-info/
+test.py
+testfile.*
