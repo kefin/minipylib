@@ -59,16 +59,40 @@ class CipherError(Exception):
 class Cipher(object):
     """
     Encryption/decryption cipher object using AES (from PyCrypto).
-    * i.e., requires PyCrypto
     
     Reference links:
 
-    * PyCrypto
-      http://www.pycrypto.org/
-      https://www.dlitz.net/software/pycrypto/
+    PyCrypto
+        http://www.pycrypto.org/
+        https://www.dlitz.net/software/pycrypto/
 
-    * Eli Bendersky's website > AES encryption of files in Python with PyCrypto
-      http://bit.ly/KXmxJM
+    Eli Bendersky's website > AES encryption of files in Python with PyCrypto
+        http://bit.ly/KXmxJM
+
+    Example usage::
+    
+        def encryption_test(data):
+            '''
+            encrypt/decrypt test
+            '''
+            secret = 'abc'
+
+            cipher = Cipher(secret)
+            ciphertext = cipher.encrypt(data)
+
+            print "# password: %s" % secret
+            print "# iv: %s" % base64.b64encode(cipher.iv)
+            print "# digest: %s" % base64.b64encode(cipher.digest)
+            print "# encrypted:"
+            print base64.b64encode(ciphertext)
+
+            cipher = Cipher(secret)
+            plaintext = cipher.decrypt(ciphertext)
+
+            print "# iv: %s" % base64.b64encode(cipher.iv)
+            print "# digest: %s" % base64.b64encode(cipher.digest)
+            print "# decrypted:"
+            print plaintext
 
     """
     iv_size = AES.block_size
@@ -87,7 +111,9 @@ class Cipher(object):
 
     def set_secret(self, secret):
         """
-        Set secret password.
+        Set secret password (if not supplied at initialization).
+
+        :param secret: set password to use for encrypt/decrypt methods.
         """
         self.secret = secret
 
@@ -95,7 +121,11 @@ class Cipher(object):
     def gen_key(cls, secret):
         """
         Generate a fix-length key from secret password.
+
         * default is 32 byte key (from sha256)
+
+        :param secret: secret password to generate key from
+        :returns: 32-byte sha256 hash for use as AES encryption key
         """
         if not secret:
             raise CipherError("Empty encryption key")
@@ -115,6 +145,9 @@ class Cipher(object):
     def encrypt(self, plaintext):
         """
         Encrypt plaintext.
+
+        :param plaintext: data to be encrypted
+        :returns: ciphertext
         """
         if not self.key:
             raise CipherError("Empty encryption key")
@@ -127,6 +160,9 @@ class Cipher(object):
     def decrypt(self, data):
         """
         Decrypt ciphertext.
+
+        :param data: ciphertext to be decrypted
+        :returns: plaintext data
         """
         if not self.key:
             raise CipherError("Empty encryption key")
@@ -296,10 +332,12 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                    use_punctuation=False):
     """
     Generate secret key for encryption.
-    * caller should specify character set to use:
-    a: alphabets
-    n: numerals
-    p: punctuations
+
+    Caller should specify character set to use:
+
+    * a: alphabets
+    * n: numerals
+    * p: punctuations
 
     :param keysize: number of characters in key (default is 50)
     :param charset: characters to use in key (a, n and/or p)

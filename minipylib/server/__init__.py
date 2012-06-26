@@ -25,13 +25,12 @@ Supported servers:
 * uwsgi: uwsgi
 * eventlet: Linden Lab eventlet
 * gevent_pywsgi: gevent
-* meinheld: meinheld server (from Japan)
 * bjoern: bjoern
 
 Copyright (c) 2008-2011 kevin chan <kefin@makedostudio.com>
 
 * created: 2009-09-11 kevin chan <kefin@makedostudio.com>
-* updated: 2012-05-12 kchan
+* updated: 2012-06-26 kchan
 """
 
 import sys
@@ -117,12 +116,12 @@ def get_web_server(**params):
     """
     Return a Server object according to supplied params.
 
-    To run server:
+    To run server::
 
-    app = my_wsgi_app
-    bind_addr = ('127.0.0.1', 8080)
-    server = get_web_server(server='wsgiserver', bind_addr=bind_addr, app=app)
-    server.run()
+        app = my_wsgi_app
+        bind_addr = ('127.0.0.1', 8080)
+        server = get_web_server(server='wsgiserver', bind_addr=bind_addr, app=app)
+        server.run()
 
     """
     return get_server(params.get('server'), get_server_config(**params))
@@ -237,7 +236,7 @@ try:
         """
         CherryPy wsgiserver
 
-        http://www.cherrypy.org/
+        :source: http://www.cherrypy.org/
         """
         name = 'cherrypy'
 
@@ -274,8 +273,8 @@ try:
         """
         FAPWS3 (Fast Asynchronous Python Web Server)
 
-        http://www.fapws.org/
-        https://github.com/william-os4y/fapws3
+        :source: http://www.fapws.org/
+        :source: https://github.com/william-os4y/fapws3
         """
         name = 'fapws'
 
@@ -322,7 +321,7 @@ try:
         """
         uWSGI: fast (pure C), self-healing, developer-friendly WSGI server
 
-        http://projects.unbit.it/uwsgi/
+        :source: http://projects.unbit.it/uwsgi/
         """
         name = 'uwsgi'
 
@@ -348,7 +347,7 @@ try:
         """
         Linden Lab eventlet
 
-        http://eventlet.net/
+        :source: http://eventlet.net/
         """
         name = 'eventlet'
 
@@ -373,6 +372,8 @@ try:
     class GeventPYWsgiServer(Server):
         """
         gevent.pywsgi.WSGIServer
+
+        :source: http://www.gevent.org/
         """
         name = 'gevent_pywsgi'
 
@@ -401,7 +402,7 @@ try:
         """
         bjoern
 
-        https://github.com/jonashaag/bjoern
+        :source: https://github.com/jonashaag/bjoern
         """
         name = 'bjoern'
 
@@ -557,7 +558,7 @@ class Webserver(object):
                 app=wsgi_application,
                 server=WSGI_SERVER,
                 bind_addr=(WSGI_SERVER_HOST, WSGI_SERVER_PORT)
-                )
+        )
 
     :note: wsgi_application is your wsgi application.
 

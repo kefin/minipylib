@@ -10,7 +10,7 @@ minipylib
 Authors
 ~~~~~~~
 
-* Kevin Chan <kefin@makedostudio.info>
+* Kevin Chan <kefin@makedostudio.com>
 	
 
 Classes, Functions & Constants

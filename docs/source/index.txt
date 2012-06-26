@@ -20,8 +20,10 @@ Contents:
    
    install
    minipylib
-   minipylib.webserver
+   minipylib.crypto
    minipylib.utils
+   minipylib.server
+   minipylib.server.wsgiserver
 
 
 Indices and tables

@@ -417,7 +417,7 @@ class Config(object):
 
 ### `safeunicode` and `safestr` from web.py
 
-def safeunicode(obj, encoding='utf-8'):
+def safe_unicode(obj, encoding='utf-8'):
     r"""
     Converts any given object to unicode string.
 
@@ -441,7 +441,7 @@ def safeunicode(obj, encoding='utf-8'):
         else:
             return str(obj).decode(encoding)
 
-def safestr(obj, encoding='utf-8'):
+def safe_str(obj, encoding='utf-8'):
     r"""
     Converts any given object to utf-8 encoded string.
 

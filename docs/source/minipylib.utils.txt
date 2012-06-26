@@ -31,21 +31,10 @@ Classes, Functions & Constants
 
 .. autofunction:: write_file
 
-.. autofunction:: md5_for_file
-
 .. autofunction:: delete_file
 
-.. autofunction:: url_to_list
+.. autofunction:: uri_to_list
 
-.. autofunction:: make_digest
-
-.. autofunction:: gen_secret_key
-
-.. autofunction:: rc4crypt
-
-.. autofunction:: encode_data
-
-.. autofunction:: decode_data
 
 .. autoclass:: DataObject
 	:show-inheritance:
