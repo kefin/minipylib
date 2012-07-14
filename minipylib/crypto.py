@@ -59,7 +59,7 @@ class CipherError(Exception):
 class Cipher(object):
     """
     Encryption/decryption cipher object using AES (from PyCrypto).
-    
+
     Reference links:
 
     PyCrypto
@@ -70,7 +70,7 @@ class Cipher(object):
         http://bit.ly/KXmxJM
 
     Example usage::
-    
+
         def encryption_test(data):
             '''
             encrypt/decrypt test
@@ -203,14 +203,21 @@ Encoders = {
     'base32': base64.b32encode,
     'base64': base64.b64encode
     }
+
 Decoders = {
     'base16': base64.b16decode,
     'base32': base64.b32decode,
     'base64': base64.b64decode
     }
 
-def _get_encoder(encode):
-    """ Return encoder corresponding to encode string or callable."""
+
+def get_encoder(encode):
+    """
+    Return encoder corresponding to encode string or callable.
+
+    :param encoding: string (either 'base16', 'base32' or 'base64') or callable
+    :returns: callable
+    """
     if callable(encode):
         return encode
     try:
@@ -219,8 +226,14 @@ def _get_encoder(encode):
         encoder = None
     return encoder
 
-def _get_decoder(decode):
-    """Return decoder corresponding to decode string or callable."""
+
+def get_decoder(decode):
+    """
+    Return decoder corresponding to decode string or callable.
+
+    :param encoding: string (either 'base16', 'base32' or 'base64') or callable
+    :returns: callable
+    """
     if callable(decode):
         return decode
     try:
@@ -393,4 +406,3 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
         elif c is 'p':
             ch += string.punctuation
     return ''.join([choice(ch) for i in range(keysize)])
-
