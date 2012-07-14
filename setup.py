@@ -5,14 +5,14 @@ setup.py
 Copyright (c) 2010-2012 kevin chan <kefin@makedostudio.com>
 
 * created: 2011-01-11 Kevin Chan <kefin@makedostudio.com>
-* updated: 2012-06-26 kchan
+* updated: 2012-07-14 kchan
 """
 
 from setuptools import setup, find_packages
 
 setup(
 	name = "minipylib",
-	version = "0.2.1",
+	version = "0.2.2",
 	packages = find_packages(),
 	author = "Kevin Chan",
 	author_email = "kefin@makedostudio.com",
@@ -23,5 +23,5 @@ setup(
 	platforms = 'any',
 	include_package_data = True,
 
-	install_requires = ['markdown', 'textile', 'PyYaml'],
+	install_requires = ['markdown', 'textile', 'PyYaml', 'pycrypto'],
 )
