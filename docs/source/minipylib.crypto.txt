@@ -4,7 +4,7 @@ minipylib.crypto
 ================
 
 .. automodule:: minipylib.crypto
-	:show-inheritance:
+    :show-inheritance:
 
 
 Classes, Functions & Constants
@@ -15,26 +15,30 @@ AES encryption class
 --------------------
 
 .. autoclass:: CipherError
-	:show-inheritance:
+    :show-inheritance:
 
 .. autoclass:: Cipher
-	:show-inheritance:
+    :show-inheritance:
 
-	.. automethod:: __init__
+    .. automethod:: __init__
 
-	.. automethod:: set_secret
+    .. automethod:: set_secret
 
-	.. automethod:: gen_key
+    .. automethod:: gen_key
 
-	.. automethod:: make_digest
+    .. automethod:: make_digest
 
-	.. automethod:: encrypt
+    .. automethod:: encrypt
 
-	.. automethod:: decrypt
+    .. automethod:: decrypt
 
 
 Encode/decode helper functions
 ------------------------------
+
+.. autofunction:: get_encoder
+
+.. autofunction:: get_decoder
 
 .. autofunction:: encode_data
 
@@ -54,10 +58,10 @@ binary data using the ``encode_data`` and ``decode_data`` helper functions.::
         :returns: encoded/decoded data
         """
         if mode == 'd':
-            plaintext = decode_data(data, secret, b64_encoding=True)
+            plaintext = decode_data(data, secret, encoding='base64')
             print plaintext
         else:
-            ciphertext = encode_data(data, secret, b64_encoding=True)
+            ciphertext = encode_data(data, secret, encoding='base64')
             print ciphertext
 
 
