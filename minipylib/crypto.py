@@ -255,7 +255,7 @@ def encode_data(data, secret_key, pickle_data=False, encoding=None):
     if pickle_data:
         data = pickle.dumps(data)
     encoded = Cipher(secret_key).encrypt(data)
-    encoder = _get_encoder(encoding)
+    encoder = get_encoder(encoding)
     if callable(encoder):
         encoded = encoder(encoded)
     return encoded
@@ -270,7 +270,7 @@ def decode_data(encrypted, secret_key, pickle_data=False, encoding=None):
     :param encoding: use base16, basse32 or base64 encoding
     :returns: data structure.
     """
-    decoder = _get_decoder(encoding)
+    decoder = get_decoder(encoding)
     if callable(decoder):
         encrypted = decoder(encrypted)
     decoded = Cipher(secret_key).decrypt(encrypted)
