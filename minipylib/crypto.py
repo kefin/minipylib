@@ -198,34 +198,68 @@ class Cipher(object):
 #         print ciphertext
 
 
-def encode_data(data, secret_key, pickle_data=False, b64_encoding=False):
+Encoders = {
+    'base16': base64.b16encode,
+    'base32': base64.b32encode,
+    'base64': base64.b64encode
+    }
+Decoders = {
+    'base16': base64.b16decode,
+    'base32': base64.b32decode,
+    'base64': base64.b64decode
+    }
+
+def _get_encoder(encode):
+    """ Return encoder corresponding to encode string or callable."""
+    if callable(encode):
+        return encode
+    try:
+        encoder = Encoders.get(encode)
+    except (TypeError, KeyError):
+        encoder = None
+    return encoder
+
+def _get_decoder(decode):
+    """Return decoder corresponding to decode string or callable."""
+    if callable(decode):
+        return decode
+    try:
+        decoder = Decoders.get(decode)
+    except (TypeError, KeyError):
+        decoder = None
+    return decoder
+
+
+def encode_data(data, secret_key, pickle_data=False, encoding=None):
     """
     Encode data using encryption, pickle and base64.b64encode.
 
     :param data: data to encrypt (set pickle_data to True if Python data structure).
     :param pickle_data: True or False; set to True to enable pickling.
-    :param b64_encoding: True or False; set to True to base64 encode result.
+    :param encoding: use base16, basse32 or base64 encoding
     :returns: string
     """
     if pickle_data:
         data = pickle.dumps(data)
     encoded = Cipher(secret_key).encrypt(data)
-    if b64_encoding:
-        encoded = base64.b64encode(encoded)
+    encoder = _get_encoder(encoding)
+    if callable(encoder):
+        encoded = encoder(encoded)
     return encoded
 
 
-def decode_data(encrypted, secret_key, pickle_data=False, b64_encoding=False):
+def decode_data(encrypted, secret_key, pickle_data=False, encoding=None):
     """
     Decode data encrypted and encoded by encode_data above.
 
     :param encrypted: encoded string to be decoded.
     :param pickle_data: True or False; set to True if encrypted data is  pickled.
-    :param b64_encoding: True or False; set to True if ciphertext is base64 encoded.
+    :param encoding: use base16, basse32 or base64 encoding
     :returns: data structure.
     """
-    if b64_encoding:
-        encrypted = base64.b64decode(encrypted)
+    decoder = _get_decoder(encoding)
+    if callable(decoder):
+        encrypted = decoder(encrypted)
     decoded = Cipher(secret_key).decrypt(encrypted)
     if pickle_data:
         decoded = pickle.loads(decoded)
