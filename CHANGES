@@ -1,6 +1,15 @@
 minipylib changelog
 ===================
 
+0.2.3
+-----
+2012-12-19 kchan
+
+* Corrected old package names in wsgiserver sources (changed "minipy"
+  to "minipylib").
+* Changed default wsgi server group to "nogroup" (from "nobody").
+
+
 0.2.0
 -----
 2012-05-12 kchan
