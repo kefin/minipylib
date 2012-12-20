@@ -12,7 +12,7 @@ except ImportError:
     ssl = None
 
 #from cherrypy import wsgiserver
-import minipy.server.wsgiserver as wsgiserver
+import minipylib.server.wsgiserver as wsgiserver
 
 
 class BuiltinSSLAdapter(wsgiserver.SSLAdapter):

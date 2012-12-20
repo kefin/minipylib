@@ -1702,7 +1702,7 @@ class HTTPServer(object):
                 )
             try:
                 #from cherrypy.wsgiserver.ssl_pyopenssl import pyOpenSSLAdapter
-				from minipy.server.wsgiserver.ssl_pyopenssl import pyOpenSSLAdapter
+				from minipylib.server.wsgiserver.ssl_pyopenssl import pyOpenSSLAdapter
             except ImportError:
                 pass
             else:
@@ -1949,8 +1949,8 @@ class Gateway(object):
 #     'pyopenssl': 'cherrypy.wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
 #     }
 ssl_adapters = {
-    'builtin': 'minipy.server.wsgiserver.ssl_builtin.BuiltinSSLAdapter',
-    'pyopenssl': 'minipy.server.wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
+    'builtin': 'minipylib.server.wsgiserver.ssl_builtin.BuiltinSSLAdapter',
+    'pyopenssl': 'minipylib.server.wsgiserver.ssl_pyopenssl.pyOpenSSLAdapter',
     }
 
 def get_ssl_adapter_class(name='pyopenssl'):

@@ -35,7 +35,7 @@ import threading
 import time
 
 #from cherrypy import wsgiserver
-import minipy.server.wsgiserver as wsgiserver
+import minipylib.server.wsgiserver as wsgiserver
 
 try:
     from OpenSSL import SSL
