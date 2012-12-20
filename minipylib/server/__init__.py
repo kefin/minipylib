@@ -30,7 +30,7 @@ Supported servers:
 Copyright (c) 2008-2011 kevin chan <kefin@makedostudio.com>
 
 * created: 2009-09-11 kevin chan <kefin@makedostudio.com>
-* updated: 2012-06-26 kchan
+* updated: 2012-12-19 kchan
 """
 
 import sys
@@ -41,7 +41,7 @@ DEFAULT_SERVER_HOST = '127.0.0.1'
 DEFAULT_SERVER_PORT = 8080
 
 DEFAULT_SERVER_USER = 'nobody'
-DEFAULT_SERVER_GROUP = 'nobody'
+DEFAULT_SERVER_GROUP = 'nogroup'
 
 # default number of threads for CherryPy wsgiserver
 DEFAULT_THREADS = 10
