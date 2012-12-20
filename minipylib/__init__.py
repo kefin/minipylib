@@ -11,7 +11,7 @@ for developing python web applications.
     Copyright (c) 2010-2012 Kevin Chan <kefin@makedostudio.com>
 
     * created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
-    * updated: 2012-07-14 kchan
+    * updated: 2012-12-19 kchan
 """
 
 __all__ = [
@@ -20,7 +20,7 @@ __all__ = [
     "AUTHORS"
 ]
 
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 DESCRIPTION = """Minipylib is a small library of utility functions
 for developing python web applications."""
 AUTHORS = (
