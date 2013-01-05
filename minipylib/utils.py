@@ -501,6 +501,3 @@ def create_log(logname, logfile=None, level='debug', format=log_fmt):
     handler.setFormatter(logging.Formatter(format))
     logger.addHandler(handler)
     return logger
-
-
-

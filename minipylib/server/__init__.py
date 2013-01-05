@@ -582,6 +582,3 @@ class Webserver(object):
 
     def stop(self):
         self.server.stop()
-
-
-
