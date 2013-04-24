@@ -2,17 +2,17 @@
 setup.py
 * setup.py for minipylib
 
-Copyright (c) 2010-2012 kevin chan <kefin@makedostudio.com>
+Copyright (c) 2010-2013 kevin chan <kefin@makedostudio.com>
 
 * created: 2011-01-11 Kevin Chan <kefin@makedostudio.com>
-* updated: 2012-12-19 kchan
+* updated: 2013-04-24 kchan
 """
 
 from setuptools import setup, find_packages
 
 setup(
 	name = "minipylib",
-	version = "0.2.3",
+	version = "0.2.4",
 	packages = find_packages(),
 	author = "Kevin Chan",
 	author_email = "kefin@makedostudio.com",

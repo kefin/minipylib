@@ -8,10 +8,10 @@ for developing python web applications.
 
 :Info:
 
-    Copyright (c) 2010-2012 Kevin Chan <kefin@makedostudio.com>
+    Copyright (c) 2010-2013 Kevin Chan <kefin@makedostudio.com>
 
     * created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
-    * updated: 2012-12-19 kchan
+    * updated: 2013-04-24 kchan
 """
 
 __all__ = [
@@ -20,7 +20,7 @@ __all__ = [
     "AUTHORS"
 ]
 
-VERSION = "0.2.3"
+VERSION = "0.2.4"
 DESCRIPTION = """Minipylib is a small library of utility functions
 for developing python web applications."""
 AUTHORS = (
