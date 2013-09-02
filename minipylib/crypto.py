@@ -378,7 +378,7 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                    charset=DEFAULT_KEY_CHAR_SET,
                    key_string=None):
     """
-    Returns a random ascii string of length 'length'
+    Returns a random ascii string of length 'keysize'
     * caller should specify character set to use:
       a: ascii letters
       u: ascii uppercase letters
@@ -397,7 +397,7 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
 
         key = gen_secret_key(64, key_string=string.letters+string.digits)
 
-    :param length: length of key to generate (default is 72)
+    :param keysize: length of key to generate (default is 72)
     :param charset: string of character sets to use (a, l, u, n, p)
     :param key_string: use provided string for key characters
     :returns: random string
@@ -427,5 +427,5 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                     ch += string.punctuation
                     added[c] = True
     prng = random.SystemRandom()
-    key = ''.join([prng.choice(ch) for i in range(length)])
+    key = ''.join([prng.choice(ch) for i in range(keysize)])
     return key
