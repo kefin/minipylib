@@ -1,6 +1,13 @@
 minipylib changelog
 ===================
 
+0.2.7
+-----
+2013-09-01 kchan
+
+* Corrected typos (length parameter should be keysize) in
+  gen_secret_key.
+
 0.2.6
 -----
 2013-09-01 kchan

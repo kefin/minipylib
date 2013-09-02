@@ -20,7 +20,7 @@ __all__ = [
     "AUTHORS"
 ]
 
-VERSION = "0.2.6"
+VERSION = "0.2.7"
 DESCRIPTION = """Minipylib is a small library of utility functions
 for developing python web applications."""
 AUTHORS = (

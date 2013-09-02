@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name = "minipylib",
-	version = "0.2.6",
+	version = "0.2.7",
 	packages = find_packages(),
 	author = "Kevin Chan",
 	author_email = "kefin@makedostudio.com",
