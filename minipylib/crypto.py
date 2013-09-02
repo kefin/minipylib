@@ -4,10 +4,10 @@ minipylib.crypto
 
 Cryptographic and encoding/decoding functions.
 
-Copyright (c) 2011-2012 Kevin Chan <kefin@makedostudio.com>
+Copyright (c) 2011-2014 Kevin Chan <kefin@makedostudio.com>
 
 * created: 2012-06-25 Kevin Chan <kefin@makedostudio.com>
-* updated: 2012-06-25 kchan
+* updated: 2013-09-01 kchan
 """
 
 import os
@@ -15,7 +15,7 @@ import hashlib
 import base64
 import hmac
 import string
-from random import choice
+import random
 
 try:
     import cPickle as pickle
@@ -370,39 +370,62 @@ def make_digest(secret_key, *args, **kwargs):
 
 ### secret key generation
 
-DEFAULT_KEY_SIZE = 50
-SECRET_KEY_CHAR_SET = "anp"
-DEFAULT_KEY_CHAR_SET = "an"
+DEFAULT_KEY_SIZE = 72
+SECRET_KEY_CHAR_SET = 'anp'
+DEFAULT_KEY_CHAR_SET = 'an'
 
 def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                    charset=DEFAULT_KEY_CHAR_SET,
-                   use_punctuation=False):
+                   key_string=None):
     """
-    Generate secret key for encryption.
+    Returns a random ascii string of length 'length'
+    * caller should specify character set to use:
+      a: ascii letters
+      u: ascii uppercase letters
+      l: ascii lowercase letters
+      n: numerals
+      p: punctuations
+    * example -- generate a 64-character key consisting of lowercase
+      ascii + digits:
 
-    Caller should specify character set to use:
+        key = gen_secret_key(64, charset='ln')
 
-    * a: alphabets
-    * n: numerals
-    * p: punctuations
+    * if ``key_string`` is specified, function will ignore ``charset``
+      parameter.
+    * for non-ascii characters, supply custom key string in ``key_string``.
+      example:
 
-    :param keysize: number of characters in key (default is 50)
-    :param charset: characters to use in key (a, n and/or p)
-    :param use_punctuation: legacy option for compatibility with old function
-    :returns: string
+        key = gen_secret_key(64, key_string=string.letters+string.digits)
+
+    :param length: length of key to generate (default is 72)
+    :param charset: string of character sets to use (a, l, u, n, p)
+    :param key_string: use provided string for key characters
+    :returns: random string
     """
-    try:
-        keysize = int(keysize)
-    except TypeError:
-        keysize = DEFAULT_SECRET_KEY_SIZE
-    if use_punctuation:
-        charset += 'p'
-    ch = ''
-    for c in charset:
-        if c is 'a':
-            ch += string.letters
-        elif c is 'n':
-            ch += string.digits
-        elif c is 'p':
-            ch += string.punctuation
-    return ''.join([choice(ch) for i in range(keysize)])
+    if key_string and isinstance(key_string, basestring):
+        ch = key_string
+    else:
+        ch = ''
+        added = {}
+        for c in charset:
+            if not c in added:
+                if c is 'a':
+                    ch += string.ascii_letters
+                    added['a'] = True
+                    added['u'] = True
+                    added['l'] = True
+                elif c is 'l':
+                    ch += string.ascii_lowercase
+                    added[c] = True
+                elif c is 'u':
+                    ch += string.ascii_uppercase
+                    added[c] = True
+                elif c is 'n':
+                    ch += string.digits
+                    added[c] = True
+                elif c is 'p':
+                    ch += string.punctuation
+                    added[c] = True
+    prng = random.SystemRandom()
+    key = ''.join([prng.choice(ch) for i in range(length)])
+    return key
