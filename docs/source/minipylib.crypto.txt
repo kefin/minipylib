@@ -104,7 +104,7 @@ Utility functions
 
    ::
 
-        DEFAULT_KEY_SIZE = 50
+        DEFAULT_KEY_SIZE = 72
 
 
 .. data:: SECRET_KEY_CHAR_SET

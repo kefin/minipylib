@@ -5,14 +5,14 @@ setup.py
 Copyright (c) 2010-2013 kevin chan <kefin@makedostudio.com>
 
 * created: 2011-01-11 Kevin Chan <kefin@makedostudio.com>
-* updated: 2013-04-24 kchan
+* updated: 2013-09-01 kchan
 """
 
 from setuptools import setup, find_packages
 
 setup(
 	name = "minipylib",
-	version = "0.2.5",
+	version = "0.2.6",
 	packages = find_packages(),
 	author = "Kevin Chan",
 	author_email = "kefin@makedostudio.com",
