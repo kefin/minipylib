@@ -427,5 +427,12 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                     ch += string.punctuation
                     added[c] = True
     prng = random.SystemRandom()
-    key = ''.join([prng.choice(ch) for i in range(keysize)])
+    try:
+        keysize = int(keysize)
+    except (TypeError, ValueError):
+        keysize = 0
+        key = ''
+    else:
+        prng = random.SystemRandom()
+        key = ''.join([prng.choice(ch) for i in range(keysize)])
     return key
