@@ -1,6 +1,13 @@
 minipylib changelog
 ===================
 
+0.2.8
+-----
+2013-09-01 kchan
+
+* gen_secret_key: Added try/except block to convert keysize to int if
+  supplied parameter is of the wrong type.
+
 0.2.7
 -----
 2013-09-01 kchan
