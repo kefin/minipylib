@@ -4,10 +4,8 @@ minipylib.utils
 
 Utility functions.
 
-Copyright (c) 2011-2012 Kevin Chan <kefin@makedostudio.com>
-
 * created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2012-06-25 kchan
+* updated: 2014-08-28 kchan
 """
 
 import sys
