@@ -5,24 +5,28 @@ minipylib
 Minipylib is a small library of utility functions
 for developing python web applications.
 
-
-:Info:
-
-    Copyright (c) 2010-2013 Kevin Chan <kefin@makedostudio.com>
-
-    * created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
-    * updated: 2013-09-01 kchan
+* created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
+* updated: 2014-08-28 kchan
 """
 
-__all__ = [
-    "VERSION",
-    "DESCRIPTION",
-    "AUTHORS"
-]
+__author__ = 'Kevin Chan <kefin@makedostudio.com>'
+__version_info__ = (0, 2, 9)
+__version__ = '.'.join(map(str, __version_info__))
 
-VERSION = "0.2.8"
-DESCRIPTION = """Minipylib is a small library of utility functions
+__description__ = """Minipylib is a small library of utility functions
 for developing python web applications."""
-AUTHORS = (
-    'Kevin Chan <kefin@makedostudio.com>',
-)
+
+VERSION = __version_info__
+DESCRIPTION = __description__
+AUTHOR = AUTHORS = __author__
+
+def get_version(version=None):
+    """
+    Returns a PEP 440 version string (in the form of major.minor.micro).
+    Http://legacy.python.org/dev/peps/pep-0440/
+    """
+    if version is None:
+        version = __version_info__
+    if isinstance(version, (list, tuple)):
+        version = '.'.join(map(str, version))
+    return version
