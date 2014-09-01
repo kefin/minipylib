@@ -18,12 +18,14 @@ class ServerConfig(object):
     Generic object for storing server settings.
     """
 
+    default_config = DEFAULT_SERVER_CONFIG
+
     def __init__(self, *args, **kwargs):
         """
         Instantiate class and set attributes based on kwargs.
         * args is ignored.
         """
-        self._set_config(DEFAULT_SERVER_CONFIG)
+        self._set_config(self.default_config)
         self._set_config(kwargs)
 
     def _set_config(self, params):
