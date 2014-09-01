@@ -41,6 +41,24 @@ TEST_SERVER_CONFIG = {
 
 class ServerTests(SimpleTestCase):
 
+    def test_default_server_config(self):
+        """
+        Ensure DEFAULT_SERVER_CONFIG is defined correctly.
+        """
+        from minipylib.server.settings import DEFAULT_SERVER_CONFIG as _conf
+        self._msg('test', 'DEFAULT_SERVER_CONFIG', first=True)
+        settings = [
+            'server', 'bind_addr', 'host_name', 'server_user', 'server_group',
+            'app_type', 'app', 'threads'
+        ]
+        # verify settings exist in DEFAULT_SERVER_CONFIG
+        for conf in settings:
+            self.assertTrue(conf in _conf, msg='key not found: %s' % conf)
+            self._msg(conf, _conf.get(conf))
+        # check default bind address
+        self.assertTrue(isinstance(_conf.get('bind_addr'), (list, tuple)))
+
+
     def test_server_config(self):
         """
         Ensure ServerConfig class is defined.
@@ -255,3 +273,11 @@ class ServerTests(SimpleTestCase):
         self._msg('get_uid_gid_call_args', get_uid_gid_call_args)
         self._msg('setgid_call_args', setgid_call_args)
         self._msg('setuid_call_args', setuid_call_args)
+
+
+    def test_make_server(self):
+        """
+        Ensure make_server function is working properly.
+        """
+        self._msg('test', 'make_server')
+        self._msg('TODO')
