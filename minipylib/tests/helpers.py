@@ -112,7 +112,7 @@ def module_exists(module_name):
         return True
 
 
-# set verbosity to > 2 to output diagnostics and messages in tests
+# set TEST_DEBUG to True to output diagnostics and messages in tests
 TEST_DEBUG = os.environ.get('TEST_DEBUG') is not None
 
 
@@ -126,7 +126,7 @@ class SimpleTestCase(unittest.TestCase):
     def _msg(self, *args, **kwargs):
         """
         Utility method to print out verbose test and debug messages.
-        * print output only if verbosity level is above 2.
+        * print output only if `debug_msgs` attribute is set to True.
         """
         if self.debug_msgs:
             msg(*args, **kwargs)
