@@ -62,7 +62,7 @@ from minipylib.server.exceptions import (
     ServerConfigError,
 )
 
-def make_server(**params):
+def make_server(server_config_cls=ServerConfig, **params):
     """
     Return a Server adaptor object according to supplied params.
 
@@ -90,7 +90,7 @@ def make_server(**params):
         else:
             app = test_app
         params['app'] = app
-    config = ServerConfig(**params)
+    config = server_config_cls(**params)
     return get_server_instance(server_name, config)
 
 
