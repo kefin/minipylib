@@ -101,6 +101,12 @@ fi
 
 # run nosetests
 
+cleanup()
+{
+    unset TEST_DEBUG
+}
+trap "cleanup" EXIT
+
 if [ "$debug_msgs" -gt 0 ]; then
     export TEST_DEBUG=1
 fi
@@ -109,4 +115,5 @@ fi
     $nose_opts \
     $modules
 
+cleanup
 exit
