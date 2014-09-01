@@ -5,7 +5,7 @@ minipylib.server.server_config
 Definition and functions to manage wsgi server configurations.
 
 * created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-01 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals)
@@ -29,6 +29,7 @@ class ServerConfig(object):
     def _set_config(self, params):
         """
         Set attributes based on params.
+        NOTE: params is a dict (not keyword args).
 
         :param params: dict
         """
