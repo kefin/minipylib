@@ -305,9 +305,6 @@ class ServerTests(SimpleTestCase):
         self.assertEqual(registry1, registry2)
         self._msg('registry', registry1)
 
-
-
-
     def test_server_object(self):
         """
         Ensure Server object is working correctly.
@@ -343,6 +340,12 @@ class ServerTests(SimpleTestCase):
         self.assertTrue(callable(dummy_server.run))
         self._msg('server name', server_name)
         self._msg('dummy server', dummy_server)
+
+        self.assertTrue(dummy_server.config is not None)
+        for k, v in my_config.items():
+            cval = getattr(dummy_server.config, k)
+            self.assertEqual(cval, v)
+            self._msg(k, cval)
 
 
     def test_get_server_instance(self):
@@ -385,6 +388,12 @@ class ServerTests(SimpleTestCase):
         self._msg('server name', server_name)
         self._msg('dummy server 1', dummy_server1)
         self._msg('dummy server 2', dummy_server2)
+
+        self.assertTrue(dummy_server2.config is not None)
+        for k, v in my_config.items():
+            cval = getattr(dummy_server2.config, k)
+            self.assertEqual(cval, v)
+            self._msg(k, cval)
 
 
     def test_make_server(self):
