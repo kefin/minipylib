@@ -5,10 +5,10 @@ minipylib.server.exceptions
 Exceptions for minipylib.server module.
 
 * created: 2014-08-30 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-01 kchan
 """
 
-from __future__ import unicode_literals
+from __future__ import (absolute_import, unicode_literals)
 
 
 class ServerNotFoundError(Exception):
