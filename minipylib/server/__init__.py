@@ -40,7 +40,7 @@ from __future__ import (absolute_import, unicode_literals)
 
 from minipylib.server.settings import DEFAULT_SERVER_CONFIG
 from minipylib.server.server_config import ServerConfig
-from minipylib.server.utils import change_uid_gid
+from minipylib.server.utils import get_uid_gid, change_uid_gid
 from minipylib.server.apps import test_app, get_django_app
 from minipylib.server.backends.base import get_server_instance
 
