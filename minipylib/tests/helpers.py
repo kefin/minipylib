@@ -83,18 +83,21 @@ def safe_str(obj, encoding='utf-8'):
 # divider for test diagnostic printouts (used by msg())
 DIVIDER = '# ----------------------------------------------------------------------'
 
-def msg(label, txt, first=False, linebreak=False, divider=DIVIDER):
+def msg(label, txt=None, first=False, linebreak=False, divider=DIVIDER):
     """
     Print out debug message.
     """
     if first:
         print('\n%s' % divider)
     label = safe_unicode(label)
-    txt = safe_unicode(txt)
-    if not linebreak:
-        print('# %-16s : %s' % (label, txt))
+    if txt is not None:
+        txt = safe_unicode(txt)
+        if not linebreak:
+            print('# %-16s : %s' % (label, txt))
+        else:
+            print('# %-16s :\n%s' % (label, txt))
     else:
-        print('# %-16s :\n%s' % (label, txt))
+        print('# %s' % label)
 
 
 def module_exists(module_name):
