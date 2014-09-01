@@ -3,7 +3,7 @@ setup.py
 * setup.py for minipylib
 
 * created: 2011-01-11 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
+* updated: 2014-09-01 kchan
 """
 
 from setuptools import setup, find_packages
@@ -21,5 +21,5 @@ setup(
 	platforms = 'any',
 	include_package_data = True,
 
-	install_requires = ['markdown', 'textile', 'PyYaml', 'pycrypto'],
+	install_requires = ['markdown', 'textile', 'PyYaml', 'pycrypto', 'nose'],
 )
