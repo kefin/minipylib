@@ -52,9 +52,10 @@ class ServerTests(SimpleTestCase):
             'app_type', 'app', 'threads'
         ]
         # verify settings exist in DEFAULT_SERVER_CONFIG
-        for conf in settings:
-            self.assertTrue(conf in _conf, msg='key not found: %s' % conf)
-            self._msg(conf, _conf.get(conf))
+        for s in settings:
+            self.assertTrue(s in _conf,
+                            msg='key not found: %s' % s)
+            self._msg(s, _conf.get(s))
         # check default bind address
         self.assertTrue(isinstance(_conf.get('bind_addr'), (list, tuple)))
 
@@ -157,7 +158,6 @@ class ServerTests(SimpleTestCase):
         app = get_django_app(server)
         self.assertTrue(callable(app))
         self._msg('django app', app)
-
 
     @patch('grp.getgrnam')
     @patch('pwd.getpwnam')
@@ -274,10 +274,122 @@ class ServerTests(SimpleTestCase):
         self._msg('setgid_call_args', setgid_call_args)
         self._msg('setuid_call_args', setuid_call_args)
 
+    def test_get_server_registry(self):
+        """
+        Ensure get_server_registry function is working properly.
+        """
+        from minipylib.server.backends.base import get_server_registry
+        self._msg('test', 'get_server_registry')
+        registry = get_server_registry()
+        # should have at least one server definition (wsgiserver)
+        self.assertTrue(len(registry) > 0)
+        self.assertTrue(registry.get('wsgiserver'))
+        for server_name, server_cls in registry.items():
+            self.assertTrue(isinstance(server_cls, object))
+            self.assertTrue(hasattr(server_cls, 'run'))
+            self.assertTrue(hasattr(server_cls, 'stop'))
+            self.assertTrue(callable(server_cls.run))
+            self._msg(server_name, server_cls)
+
+    def test_get_server_list(self):
+        """
+        Ensure get_server_list function is working properly.
+        """
+        from minipylib.server.backends.base import (
+            get_server_registry,
+            get_server_list
+        )
+        self._msg('test', 'get_server_list')
+        registry1 = get_server_list()
+        registry2 = get_server_registry()
+        self.assertEqual(registry1, registry2)
+        self._msg('registry', registry1)
+
+
+
+
+    def test_server_object(self):
+        """
+        Ensure Server object is working correctly.
+        """
+        from minipylib.server.server_config import get_server_config
+        from minipylib.server.backends.base import (
+            Server,
+            get_server_registry
+        )
+        self._msg('test', 'Server object', first=True)
+
+        server_name = 'dummy-test-server'
+
+        class TestServer(Server):
+            name = server_name
+            def run(self):
+                pass
+
+        registry = get_server_registry()
+        dummy_server_cls = registry.get(server_name)
+        self.assertTrue(dummy_server_cls is not None)
+
+        my_config = {}
+        my_config.update(TEST_SERVER_CONFIG)
+        config = get_server_config(**my_config)
+
+        dummy_server = dummy_server_cls(config)
+        self.assertTrue(isinstance(dummy_server, object))
+        self.assertTrue(isinstance(dummy_server, Server))
+        self.assertTrue(isinstance(dummy_server, TestServer))
+
+        self.assertEqual(dummy_server.name, server_name)
+        self.assertTrue(callable(dummy_server.run))
+        self._msg('server name', server_name)
+        self._msg('dummy server', dummy_server)
+
+
+    def test_get_server_instance(self):
+        """
+        Ensure get_server_instance function is working properly.
+        """
+        from minipylib.server.server_config import get_server_config
+        from minipylib.server.backends.base import (
+            Server,
+            get_server_registry,
+            get_server_instance
+        )
+        self._msg('test', 'get_server_instance', first=True)
+
+        server_name = 'dummy-test-server'
+
+        class TestServer(Server):
+            name = server_name
+            def run(self):
+                pass
+
+        registry = get_server_registry()
+        dummy_server_cls = registry.get(server_name)
+        self.assertTrue(dummy_server_cls is not None)
+
+        my_config = {}
+        my_config.update(TEST_SERVER_CONFIG)
+        config = get_server_config(**my_config)
+
+        dummy_server1 = dummy_server_cls(config)
+        self.assertTrue(isinstance(dummy_server1, object))
+        self.assertTrue(isinstance(dummy_server1, Server))
+        self.assertTrue(isinstance(dummy_server1, TestServer))
+
+        dummy_server2 = get_server_instance(server_name, config)
+        self.assertTrue(isinstance(dummy_server2, object))
+        self.assertTrue(isinstance(dummy_server2, Server))
+        self.assertTrue(isinstance(dummy_server2, TestServer))
+        self.assertTrue(callable(dummy_server2.run))
+        self._msg('server name', server_name)
+        self._msg('dummy server 1', dummy_server1)
+        self._msg('dummy server 2', dummy_server2)
+
 
     def test_make_server(self):
         """
         Ensure make_server function is working properly.
         """
-        self._msg('test', 'make_server')
+        self._msg('test', 'make_server', first=True)
         self._msg('TODO')
