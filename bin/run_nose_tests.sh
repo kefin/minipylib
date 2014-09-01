@@ -11,11 +11,11 @@
 # ./bin/run_nose_tests.sh minipylib
 #
 # To print diagnostic info when running tests:
-# ./bin/run_nose_tests.sh -vv minipylib
+# ./bin/run_nose_tests.sh -D minipylib
 #
 #
 # * created: 2014-08-28 Kevin Chan <kefin@makedostudio.com>
-# * updated: 2014-08-29 kchan
+# * updated: 2014-09-01 kchan
 
 ########################################################################
 myname="${0##*/}"
@@ -73,6 +73,7 @@ NOSE_OPTS="--nocapture --nologcapture --with-ignore-docstrings"
 
 nose_opts="$NOSE_OPTS"
 debug_msgs=0
+modules=
 
 while [ $# -gt 0 ]
 do
@@ -87,7 +88,7 @@ do
             nose_opts="$nose_opts $1"
             ;;
         *)
-            input_files="$input_files $1"
+            modules="$modules $1"
             ;;
     esac
     shift
@@ -105,7 +106,7 @@ if [ "$debug_msgs" -gt 0 ]; then
 fi
 
 "$NOSETESTS" \
-    $NOSE_OPTS \
-    "$@"
+    $nose_opts \
+    $modules
 
 exit
