@@ -108,34 +108,3 @@ class BaseTests(SimpleTestCase):
         self._msg('version', version)
         self._msg('expected', version_string)
         self._msg('result', result)
-
-    # def test_print(self):
-    #     """
-    #     """
-    #     print('')
-        
-    #     expected = '你好'
-    #     print(expected)
-        
-    #     txt = u'Ivan Krsti\u0107'
-    #     print(txt)
-
-    #     txt = b'\xe2\x82\xac20'
-    #     txt = txt.decode('utf-8')
-    #     print(txt)
-
-    #     expected = u'\u1234'
-    #     print(expected)
-
-    #     txt = 'écriture 寫作'
-    #     print(txt)
-
-    #     data = ['abc', 'écriture 寫作']
-    #     print(data)
-        
-    #     data = b'Hello, World!'
-    #     data = data.decode('utf-8')
-    #     print(data)
-
-    #     expected = 'üᾔї¢☺∂ε'
-    #     print(expected)

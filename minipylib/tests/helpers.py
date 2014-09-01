@@ -80,18 +80,6 @@ def safe_str(obj, encoding='utf-8'):
         return str(obj)
 
 
-default_encoding = "utf-8"
-
-def uprint(data, encoding=default_encoding):
-    """
-    Print encoded/decoded utf-8 output to stdout.
-
-    :param data: data to print.
-    :param encoding: data encoding (default is `utf-8`).
-    """
-    print(data)
-
-
 # divider for test diagnostic printouts (used by msg())
 DIVIDER = '# ----------------------------------------------------------------------'
 
