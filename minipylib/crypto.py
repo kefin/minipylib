@@ -3,13 +3,16 @@
 minipylib.crypto
 
 Cryptographic and encoding/decoding functions.
-
-Copyright (c) 2011-2014 Kevin Chan <kefin@makedostudio.com>
+* These are wrapper functions that require the PyCrypto toolkit:
+  https://www.dlitz.net/software/pycrypto/
 
 * created: 2012-06-25 Kevin Chan <kefin@makedostudio.com>
-* updated: 2013-09-01 kchan
+* updated: 2014-08-29 kchan
 """
 
+from __future__ import (absolute_import, unicode_literals)
+
+import six
 import os
 import hashlib
 import base64
@@ -105,7 +108,6 @@ class Cipher(object):
         :param secret: secret password
         """
         self.set_secret(secret)
-        self.key = self.gen_key(secret)
         self.iv = None
         self.digest = None
 
@@ -116,6 +118,7 @@ class Cipher(object):
         :param secret: set password to use for encrypt/decrypt methods.
         """
         self.secret = secret
+        self.key = self.gen_key(secret)
 
     @classmethod
     def gen_key(cls, secret):
@@ -129,6 +132,8 @@ class Cipher(object):
         """
         if not secret:
             raise CipherError("Empty encryption key")
+        if not isinstance(secret, (six.binary_type, six.string_types)):
+            raise CipherError("Bad encryption key type.")
         h = hashlib.sha256()
         h.update(secret)
         return h.digest()
@@ -150,7 +155,7 @@ class Cipher(object):
         :returns: ciphertext
         """
         if not self.key:
-            raise CipherError("Empty encryption key")
+            raise CipherError("Empty encryption key.")
         self.iv = os.urandom(self.iv_size)
         cryptobj = AES.new(self.key, mode=self.mode, IV=self.iv)
         encrypted = self.iv + cryptobj.encrypt(plaintext)
@@ -166,9 +171,15 @@ class Cipher(object):
         """
         if not self.key:
             raise CipherError("Empty encryption key")
+        if not isinstance(data, six.binary_type):
+            raise CipherError("Bad data supplied to decrypt method.")
         self.digest = data[:self.digest_size]
         header = self.digest_size + self.iv_size
-        self.iv = data[self.digest_size:header]
+        try:
+            self.iv = data[self.digest_size:header]
+            assert len(self.iv) == self.iv_size
+        except (IndexError, AssertionError):
+            raise CipherError("Unable to retrieve IV.")
         ciphertext = data[header:]
         cryptobj = AES.new(self.key, mode=self.mode, IV=self.iv)
         decrypted = cryptobj.decrypt(ciphertext)
@@ -202,13 +213,13 @@ Encoders = {
     'base16': base64.b16encode,
     'base32': base64.b32encode,
     'base64': base64.b64encode
-    }
+}
 
 Decoders = {
     'base16': base64.b16decode,
     'base32': base64.b32decode,
     'base64': base64.b64decode
-    }
+}
 
 
 def get_encoder(encode):
@@ -332,12 +343,18 @@ def md5_for_file(path, block_size=2**10):
 def make_digest(secret_key, *args, **kwargs):
     """
     Return a hmac digest for arguments.
+    * Note: HMAC does not accept unicode so we have to convert `secret_key`
+      to a byte string.
+    * See: http://stackoverflow.com/questions/20849805/python-hmac-typeerror-character-mapping-must-return-integer-none-or-unicode
+    * And: http://bugs.python.org/issue5285
 
     :param secret_key: secret password to use for creating hash digest
     :param digestmod: keyword argument for digest module (default: DefaultHash)
     :param hexdigest: if True, return hexdigest format, else regular binary
     :returns: string (in hexdigest format)
     """
+    from minipylib.utils import safe_str
+    secret_key = safe_str(secret_key)
     digestmod = kwargs.get('digestmod', DefaultHash)
     h = hmac.new(secret_key, digestmod=digestmod)
     for arg in args:
@@ -347,32 +364,19 @@ def make_digest(secret_key, *args, **kwargs):
     return h.digest()
 
 
-
-### secret key generation
-
-### old version (begin)
-# DEFAULT_SECRET_KEY_SIZE = 50
-#
-# def gen_secret_key(keysize=DEFAULT_SECRET_KEY_SIZE, use_punctuation=False):
-#     """
-#     Generate secret key for encryption.
-#
-#     :param keysize: number of characters in key (default is 50)
-#     :param use_punctuation: include punctuation characters (default: alphanumeric)
-#     :returns: string
-#     """
-#     ch = string.letters + string.digits
-#     if use_punctuation:
-#         ch += string.punctuation
-#     return ''.join([choice(ch) for i in range(keysize)])
-### old version (end)
-
-
 ### secret key generation
 
 DEFAULT_KEY_SIZE = 72
 SECRET_KEY_CHAR_SET = 'anp'
 DEFAULT_KEY_CHAR_SET = 'an'
+
+csets = {
+    'a': string.ascii_letters,
+    'l': string.ascii_lowercase,
+    'u': string.ascii_uppercase,
+    'n': string.digits,
+    'p': string.punctuation,
+}
 
 def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                    charset=DEFAULT_KEY_CHAR_SET,
@@ -400,39 +404,27 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
     :param keysize: length of key to generate (default is 72)
     :param charset: string of character sets to use (a, l, u, n, p)
     :param key_string: use provided string for key characters
-    :returns: random string
+    :returns: random string or None if error
     """
-    if key_string and isinstance(key_string, basestring):
-        ch = key_string
+    if key_string and isinstance(key_string, six.string_types):
+        chars = key_string
     else:
-        ch = ''
+        chars = ''
         added = {}
         for c in charset:
             if not c in added:
-                if c is 'a':
-                    ch += string.ascii_letters
-                    added['a'] = True
-                    added['u'] = True
-                    added['l'] = True
-                elif c is 'l':
-                    ch += string.ascii_lowercase
-                    added[c] = True
-                elif c is 'u':
-                    ch += string.ascii_uppercase
-                    added[c] = True
-                elif c is 'n':
-                    ch += string.digits
-                    added[c] = True
-                elif c is 'p':
-                    ch += string.punctuation
-                    added[c] = True
-    prng = random.SystemRandom()
+                added[c] = True
+                if c in ('a', 'l', 'u', 'n', 'p'):
+                    if c == 'a':
+                        added['u'] = True
+                        added['l'] = True
+                    chars += csets.get(c, '')
     try:
         keysize = int(keysize)
-    except (TypeError, ValueError):
-        keysize = 0
-        key = ''
+        assert keysize > 0
+    except (TypeError, ValueError, AssertionError):
+        key = None
     else:
         prng = random.SystemRandom()
-        key = ''.join([prng.choice(ch) for i in range(keysize)])
+        key = ''.join([prng.choice(chars) for i in range(keysize)])
     return key

@@ -16,4 +16,3 @@ To build documentation, cd to "docs" directory and do:
     make html
 
 HTML docs will be in docs/_build/html.
-

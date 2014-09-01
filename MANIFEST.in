@@ -1,4 +1,9 @@
 include INSTALL
 include LICENSE
-include CHANGES
+include CHANGLOG
+include bin/run_nose_tests.sh
+recursive-include minipylib/tests/*/*.txt
+recursive-include minipylib/tests/*/*.gif
+recursive-include minipylib/tests/*/*.jpg
+recursive-include minipylib/tests/*/*.png
 global-exclude .DS_Store *.hgignore *.hgtags *_hgignore.txt

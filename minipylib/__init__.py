@@ -6,8 +6,11 @@ Minipylib is a small library of utility functions
 for developing python web applications.
 
 * created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-28 kchan
+* updated: 2014-08-29 kchan
 """
+
+from __future__ import (absolute_import, unicode_literals)
+
 
 __author__ = 'Kevin Chan <kefin@makedostudio.com>'
 __version_info__ = (0, 2, 9)
@@ -18,7 +21,9 @@ for developing python web applications."""
 
 VERSION = __version_info__
 DESCRIPTION = __description__
-AUTHOR = AUTHORS = __author__
+AUTHOR = __author__
+AUTHORS = (__author__,)
+
 
 def get_version(version=None):
     """
