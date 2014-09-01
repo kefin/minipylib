@@ -40,4 +40,4 @@ def get_server_config(**params):
     """
     Return a ServerConfig object with settings for a wsgi server.
     """
-    return ServerConfig(params)
+    return ServerConfig(**params)
