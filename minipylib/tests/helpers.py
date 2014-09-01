@@ -88,7 +88,7 @@ def msg(label, txt, first=False, linebreak=False, divider=DIVIDER):
     Print out debug message.
     """
     if first:
-        uprint(u'\n%s' % safe_unicode(divider))
+        print('\n%s' % divider)
     label = safe_unicode(label)
     txt = safe_unicode(txt)
     if not linebreak:
