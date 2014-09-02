@@ -5,7 +5,7 @@ minipylib.server.backends.fapws_server
 Define a wsgi server object based on fapws3.
 
 * created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-02 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals)
@@ -27,6 +27,7 @@ try:
     class FapwsServer(Server):
         """
         FAPWS3 (Fast Asynchronous Python Web Server)
+        * This project loosks to have been dormant/abandoned since 2012.
 
         :source: http://www.fapws.org/
         :source: https://github.com/william-os4y/fapws3
