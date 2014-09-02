@@ -21,26 +21,26 @@ from minipylib.server.backends.base import Server
 
 #######################################################################
 
-# * uswgi serves differently than the other wsgi servers. The uwsgi
-#   configuration file will set the module to load and the "application"
-#   entry point (inside the module). We don't need to do anything here
-#   since the Server instance is not used to run a daemon process.
-# * All uswgi options are set in XML file loaded by uswgi when
-#   invoked as daemon so we don't have to do any configuration here.
-
 try:
     import uwsgi
 
     class UwsgiServer(Server):
         """
         :source: https://github.com/unbit/uwsgi
+
+        * uswgi serves differently than the other wsgi servers. The
+          uwsgi configuration file will set the module to load and the
+          "application" entry point (inside the module). We don't need
+          to do anything here since the Server instance is not used to
+          run a daemon process.
+        * All uswgi options are set in XML file loaded by uswgi when
+          invoked as daemon so we don't have to do any configuration
+          here.
         """
         name = 'uwsgi'
 
-        def __init__(self, config):
-            Server.__init__(self, config)
-            # the "Application Dict" setting is obsolete
-            #uwsgi.applications = {'': self.config.app}
+        def run(self):
+            pass
 
 except ImportError:
     pass

@@ -34,11 +34,9 @@ try:
         name = 'gevent'
 
         def run(self):
-            self.server = gevent_pywsgi(self.config.bind_addr, self.config.app)
-            try:
-                self.server.serve_forever()
-            except:
-                pass
+            self.server = gevent_pywsgi(self.config.bind_addr,
+                                        self.config.app)
+            self.server.serve_forever()
 
 except ImportError:
     pass

@@ -40,9 +40,8 @@ try:
                                     self.config.bind_addr,
                                     self.config.app,
                                     server_name=self.config.host_name,
-                                    numthreads=getattr(self.config,
-                                                       'threads',
-                                                       DEFAULT_THREADS))
+                                    numthreads=self.config.get('threads',
+                                                               DEFAULT_THREADS))
             try:
                 self.server.start()
             except KeyboardInterrupt:

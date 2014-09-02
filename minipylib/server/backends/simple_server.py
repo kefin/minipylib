@@ -36,6 +36,5 @@ try:
             except KeyboardInterrupt:
                 self.stop()
 
-
 except ImportError:
     pass

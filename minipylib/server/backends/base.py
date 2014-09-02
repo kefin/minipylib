@@ -5,12 +5,19 @@ minipylib.server.backends.base
 Definitions for a Server adaptor class.
 
 * created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-02 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals)
 
 import six
+
+from minipylib.utils import DataObject
+from minipylib.server.settings import DEFAULT_SERVER_CONFIG
+from minipylib.server.exceptions import (
+    ServerNotFoundError,
+    ServerConfigError
+)
 
 
 class ServerMeta(type):
@@ -39,27 +46,43 @@ class Server(object):
     """
 
     name = None
+    default_config = DEFAULT_SERVER_CONFIG
 
     def __init__(self, config):
         """
         Methods can access server parameters (host, port, app, etc.)
         through the "config" dict.
 
-        :param config: config is a ServerConfig object.
+        :param config: config is a dict of key-value pairs to
+            configure server
         """
         from minipylib.server.utils import change_uid_gid
-        self.config = config
-        self.server = config.server
-        user = config.server_user
-        group = config.server_group
+        self.config = DataObject()
+        self.set_config(self.default_config)
+        self.set_config(config)
+        self.server_name = self.config.server
+        self.server = None
+        user = self.config.server_user
+        group = self.config.server_group
         if user and group:
             change_uid_gid(user, group)
+
+    def set_config(self, config):
+        """
+        Set attributes based on parameters.
+        * NOTE: config is a dict (not keyword args).
+        * self.config is a DataObject (dict with values that can be
+          accessed as object attributes).
+
+        :param config: dict
+        """
+        self.config.add(config)
 
     def run(self):
         """
         Runs wsgi server. Subclass should override.
         """
-        pass
+        raise ServerConfigError('Server subclass should override "run" method.')
 
     def stop(self):
         """
@@ -70,27 +93,25 @@ class Server(object):
 
 
 def get_server_registry():
-    """
-    Return server registry.
-    """
+    """Return server registry."""
     return Server.registry
 
 def get_server_list():
     return get_server_registry()
 
 
-def get_server_instance(server, config):
+def get_server_instance(server_name, config):
     """
-    Return Server instance corresponding to name.
+    Return Server instance corresponding to server_name.
 
-    :param server: keyword name of wsgi server
-    :param config: config is a ServerConfig object
+    :param server_name: keyword name of wsgi server
+    :param config: config is a dict of server settings
     :returns: Server instance populated with config or None if error
     """
-    from minipylib.server.exceptions import ServerNotFoundError
     registry = get_server_registry()
     try:
-        server_obj = registry[server](config)
+        server_obj = registry[server_name](config)
     except KeyError:
-        raise ServerNotFoundError("Cannot find Server subclass: %s" % server)
+        raise ServerNotFoundError(
+            "Cannot find Server class for: %s" % server_name)
     return server_obj

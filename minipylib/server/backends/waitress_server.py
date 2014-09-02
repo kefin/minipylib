@@ -35,8 +35,9 @@ try:
 
         def run(self):
             host, port = self.config.bind_addr
+            self.server = waitress.serve
             try:
-                waitress.serve(self.config.app, host=host, port=port)
+                self.server(self.config.app, host=host, port=port)
             except KeyboardInterrupt:
                 self.stop()
 

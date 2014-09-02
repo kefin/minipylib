@@ -33,13 +33,12 @@ Supported servers:
 * waitress: waitress
 
 * created: 2009-09-11 kevin chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-02 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals)
 
 from minipylib.server.settings import DEFAULT_SERVER_CONFIG
-from minipylib.server.server_config import ServerConfig
 from minipylib.server.utils import get_uid_gid, change_uid_gid
 from minipylib.server.apps import test_app, get_django_app
 from minipylib.server.backends.base import get_server_instance
@@ -59,11 +58,11 @@ from minipylib.server.backends import (
 
 from minipylib.server.exceptions import (
     ServerNotFoundError,
-    ServerConfigError,
+    ServerConfigError
 )
 
 
-def make_server(server_config_cls=ServerConfig, **params):
+def make_server(server_name=None, **params):
     """
     Return a Server adaptor object according to supplied params.
 
@@ -83,7 +82,9 @@ def make_server(server_config_cls=ServerConfig, **params):
             server.run()
 
     """
-    server_name = params.get('server')
+    if not server_name:
+        server_name = params.get('server') or \
+                      DEFAULT_SERVER_CONFIG.get('server')
     app = params.get('app')
     if not app:
         if params.get('app_type') == 'django':
@@ -91,8 +92,7 @@ def make_server(server_config_cls=ServerConfig, **params):
         else:
             app = test_app
         params['app'] = app
-    config = server_config_cls(**params)
-    return get_server_instance(server_name, config)
+    return get_server_instance(server_name, params)
 
 
 def get_web_server(**params):

@@ -33,12 +33,11 @@ try:
 
         def run(self):
             self.server = wsgiserver.CherryPyWSGIServer(
-                                        self.config.bind_addr,
-                                        self.config.app,
-                                        server_name=self.config.host_name,
-                                        numthreads=getattr(self.config,
-                                                           'threads',
-                                                           DEFAULT_THREADS))
+                                        self.config.get('bind_addr'),
+                                        self.config.get('app'),
+                                        server_name=self.config.get('host_name'),
+                                        numthreads=self.config.get('threads',
+                                                                   DEFAULT_THREADS))
             try:
                 self.server.start()
             except KeyboardInterrupt:

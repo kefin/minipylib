@@ -5,7 +5,7 @@ tests.base.tests
 Base tests for minipylib.
 
 * created: 2014-08-28 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+* updated: 2014-09-02 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals, print_function)
@@ -28,8 +28,8 @@ class BaseTests(SimpleTestCase):
             'minipylib.utils',
             'minipylib.server',
             'minipylib.server.apps',
-            'minipylib.server.server_config',
             'minipylib.server.settings',
+            'minipylib.server.exceptions',
             'minipylib.server.utils',
             'minipylib.server.backends',
             'minipylib.server.backends.base',
@@ -41,6 +41,7 @@ class BaseTests(SimpleTestCase):
             'minipylib.server.backends.simple_server',
             'minipylib.server.backends.uwsgi_server',
             'minipylib.server.backends.wsgiserver',
+            'minipylib.server.backends.waitress_server',
         )
         self._msg('test', 'module imports', first=True)
         for a in apps:

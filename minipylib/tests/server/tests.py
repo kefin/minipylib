@@ -59,57 +59,6 @@ class ServerTests(SimpleTestCase):
         # check default bind address
         self.assertTrue(isinstance(_conf.get('bind_addr'), (list, tuple)))
 
-
-    def test_server_config(self):
-        """
-        Ensure ServerConfig class is defined.
-        """
-        from minipylib.server.server_config import ServerConfig
-        self._msg('test', 'ServerConfig', first=True)
-        my_config = {}
-        my_config.update(TEST_SERVER_CONFIG)
-        self._msg('my_config', my_config)
-        c = ServerConfig(**my_config)
-        self.assertTrue(c and isinstance(c, object))
-        for k, v in my_config.items():
-            cval = getattr(c, k)
-            self.assertEqual(cval, v)
-            self._msg(k, cval)
-
-    def test_get_server_config(self):
-        """
-        Ensure get_server_config function is working properly.
-        """
-        from minipylib.server.server_config import get_server_config
-        self._msg('test', 'get_server_config', first=True)
-
-        c = get_server_config()
-        self._msg('config', c)
-        self.assertTrue(c.server is not None)
-        self.assertTrue(c.bind_addr is not None)
-        self.assertTrue(c.server_user is not None)
-        self.assertTrue(c.server_group is not None)
-
-        self._msg('server', c.server)
-        self._msg('bind_addr', c.bind_addr)
-        self._msg('host_name', c.host_name)
-        self._msg('server_user', c.server_user)
-        self._msg('server_group', c.server_group)
-        self._msg('app_type', c.app_type)
-        self._msg('app', c.app)
-
-        self._msg('***', '')
-        my_config = {}
-        my_config.update(TEST_SERVER_CONFIG)
-        self._msg('my_config', my_config)
-        c = get_server_config(**my_config)
-        self.assertTrue(c and isinstance(c, object))
-        self._msg('config', c)
-        for k, v in my_config.items():
-            cval = getattr(c, k)
-            self.assertEqual(cval, v)
-            self._msg(k, cval)
-
     def test_make_server(self):
         """
         Ensure make_server function is working properly.
@@ -309,7 +258,6 @@ class ServerTests(SimpleTestCase):
         """
         Ensure Server object is working correctly.
         """
-        from minipylib.server.server_config import get_server_config
         from minipylib.server.backends.base import (
             Server,
             get_server_registry
@@ -327,9 +275,8 @@ class ServerTests(SimpleTestCase):
         dummy_server_cls = registry.get(server_name)
         self.assertTrue(dummy_server_cls is not None)
 
-        my_config = {}
-        my_config.update(TEST_SERVER_CONFIG)
-        config = get_server_config(**my_config)
+        config = {}
+        config.update(TEST_SERVER_CONFIG)
 
         dummy_server = dummy_server_cls(config)
         self.assertTrue(isinstance(dummy_server, object))
@@ -342,7 +289,7 @@ class ServerTests(SimpleTestCase):
         self._msg('dummy server', dummy_server)
 
         self.assertTrue(dummy_server.config is not None)
-        for k, v in my_config.items():
+        for k, v in config.items():
             cval = getattr(dummy_server.config, k)
             self.assertEqual(cval, v)
             self._msg(k, cval)
@@ -352,7 +299,6 @@ class ServerTests(SimpleTestCase):
         """
         Ensure get_server_instance function is working properly.
         """
-        from minipylib.server.server_config import get_server_config
         from minipylib.server.backends.base import (
             Server,
             get_server_registry,
@@ -371,9 +317,8 @@ class ServerTests(SimpleTestCase):
         dummy_server_cls = registry.get(server_name)
         self.assertTrue(dummy_server_cls is not None)
 
-        my_config = {}
-        my_config.update(TEST_SERVER_CONFIG)
-        config = get_server_config(**my_config)
+        config = {}
+        config.update(TEST_SERVER_CONFIG)
 
         dummy_server1 = dummy_server_cls(config)
         self.assertTrue(isinstance(dummy_server1, object))
@@ -390,7 +335,7 @@ class ServerTests(SimpleTestCase):
         self._msg('dummy server 2', dummy_server2)
 
         self.assertTrue(dummy_server2.config is not None)
-        for k, v in my_config.items():
+        for k, v in config.items():
             cval = getattr(dummy_server2.config, k)
             self.assertEqual(cval, v)
             self._msg(k, cval)
