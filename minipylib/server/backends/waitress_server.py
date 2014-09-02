@@ -10,8 +10,6 @@ Define a wsgi server object based on waitress.
 
 from __future__ import (absolute_import, unicode_literals)
 
-import sys
-
 from minipylib.server.backends.base import Server
 
 
