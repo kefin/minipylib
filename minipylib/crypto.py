@@ -8,7 +8,7 @@ digests and generate random passwords/secret keys.
 Encryption and decryption use the PyCrypto toolkit's AES encryption
 functions and classes:
 
-:info: https://www.dlitz.net/software/pycrypto/
+:see: https://www.dlitz.net/software/pycrypto/
 
 """
 
@@ -106,6 +106,10 @@ class Cipher(object):
             print "# decrypted:"
             print plaintext
 
+
+    Note: the hash and encrypt/decrypt functions require byte data so
+    unicode text need to be encoded as bytes before feeding into this
+    object.    
     """
     iv_size = AES.block_size
     mode = AES.MODE_CFB
@@ -320,20 +324,22 @@ def file_digest(path, block_size=2**10, hashfunc=None, algorithm=None):
     :param algorithm: alternative method of specifying hash algorithm (as string)
     :returns: hash in hex
     """
+    from minipylib.utils import open_file
     if hashfunc is None:
         if algorithm is None:
             hashfunc = DefaultHash
         else:
             hashfunc = DefaultHashAlgorithms.get(algorithm, DefaultHash);
-    h = hashfunc()
-    f = open(path)
-    while True:
-        data = f.read(block_size)
-        if not data:
-            break
-        h.update(data)
-    f.close()
-    return h.hexdigest()
+
+    hasher = hashfunc()
+    with open_file(path, mode='rb') as file_obj:
+        while True:
+            data = file_obj.read(block_size)
+            if not data:
+                break
+            hasher.update(data)
+
+    return hasher.hexdigest()
 
 
 def md5_for_file(path, block_size=2**10):
@@ -368,7 +374,7 @@ def make_digest(secret_key, *args, **kwargs):
         only. Text (unicode) is neither specified by the standards nor
         supported. You have to convert your text to bytes with some
         encoding (e.g. ASCII or UTF-8).
-    
+
     :More info:
 
         * http://stackoverflow.com/questions/20849805/python-hmac-typeerror-character-mapping-must-return-integer-none-or-unicode
@@ -377,12 +383,12 @@ def make_digest(secret_key, *args, **kwargs):
 
     """
     digestmod = kwargs.get('digestmod', DefaultHash)
-    h = hmac.new(secret_key, digestmod=digestmod)
+    hasher = hmac.new(secret_key, digestmod=digestmod)
     for arg in args:
-        h.update(arg)
+        hasher.update(arg)
     if kwargs.get('hexdigest') is True:
-        return h.hexdigest()
-    return h.digest()
+        return hasher.hexdigest()
+    return hasher.digest()
 
 
 ### secret key generation
