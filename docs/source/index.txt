@@ -38,6 +38,7 @@ Contents
    install
    minipylib
    minipylib.crypto
+   minipylib.utils
    minipylib.server
    minipylib.server.backends
    minipylib.server.backends.wsgiserver
@@ -45,7 +46,6 @@ Contents
    minipylib.server.exceptions
    minipylib.server.settings
    minipylib.server.utils
-   minipylib.utils
 
 
 Indices and tables
