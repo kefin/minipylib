@@ -3,28 +3,31 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to minipylib's documentation!
-=====================================
+minipylib |release|
+===================
 
-:Release: |release|
-
-
-.. automodule:: minipylib
-	:show-inheritance:
+Minipylib is a small library of utility functions for developing
+Python web applications. These functions do not require specific
+frameworks (like Django, CherryPy, etc.) so they should work with all
+Python code.
 
 
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    install
    minipylib
    minipylib.crypto
-   minipylib.utils
    minipylib.server
-   minipylib.server.wsgiserver
-
+   minipylib.server.backends
+   minipylib.server.backends.wsgiserver
+   minipylib.server.apps
+   minipylib.server.exceptions
+   minipylib.server.settings
+   minipylib.server.utils
+   minipylib.utils
 
 Indices and tables
 ==================

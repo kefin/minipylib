@@ -7,18 +7,21 @@ minipylib.crypto
     :show-inheritance:
 
 
-Classes, Functions & Constants
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-AES encryption class
---------------------
+Encryption Class
+----------------
 
 .. autoclass:: CipherError
-    :show-inheritance:
 
 .. autoclass:: Cipher
     :show-inheritance:
+
+    .. data:: iv_size
+
+    .. data:: mode
+
+    .. data:: digst_mod
+
+    .. data:: digest_size
 
     .. automethod:: __init__
 
@@ -35,6 +38,26 @@ AES encryption class
 
 Encode/decode helper functions
 ------------------------------
+
+.. data:: Encoders
+
+   ::
+
+        Encoders = {
+            'base16': base64.b16encode,
+            'base32': base64.b32encode,
+            'base64': base64.b64encode
+        }
+
+.. data:: Decoders
+
+   ::
+
+        Decoders = {
+            'base16': base64.b16decode,
+            'base32': base64.b32decode,
+            'base64': base64.b64decode
+        }
 
 .. autofunction:: get_encoder
 

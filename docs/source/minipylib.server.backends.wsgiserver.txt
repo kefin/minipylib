@@ -1,9 +1,9 @@
-.. _server.wsgiserver:
+.. _server.backends.wsgiserver:
 
-minipylib.server.wsgiserver
-===========================
+minipylib.server.backends.wsgiserver
+====================================
 
-.. module:: minipylib.server.wsgiserver
+.. module:: minipylib.server.backends.wsgiserver
 
 
 CherryPy's wsgiserver
@@ -80,8 +80,5 @@ number of requests and their responses, so we run a nested loop::
 
 
 
-More Info
-~~~~~~~~~
-
-:Info: `CherryPy <http://www.cherrypy.org/>`_
+:More Info: `CherryPy <http://www.cherrypy.org/>`_
 

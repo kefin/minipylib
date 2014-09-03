@@ -1,0 +1,12 @@
+.. _server.utils:
+
+minipylib.server.utils
+======================
+
+.. automodule:: minipylib.server.utils
+    :show-inheritance:
+
+
+.. autofunction:: get_uid_gid
+
+.. autofunction:: change_uid_gid

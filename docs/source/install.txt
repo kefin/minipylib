@@ -1,7 +1,7 @@
 .. _install:
 
-How to install minipylib
-========================
+Installation
+~~~~~~~~~~~~
 
 To install **minipylib**, do::
 
@@ -12,10 +12,11 @@ To install **minipylib**, do::
 Documentation
 ~~~~~~~~~~~~~
 
-To build these documentation, cd to "docs" directory and do::
+
+To build these documentation, cd to ``docc`` directory and do::
 
     make html
 
-HTML docs will be in ``docs/_build/html``.
+HTML docs will be in ``docs/build/html``.
 
 

@@ -1,0 +1,12 @@
+.. _server.exceptions:
+
+minipylib.server.exceptions
+===========================
+
+.. automodule:: minipylib.server.exceptions
+    :show-inheritance:
+
+
+.. autoexception:: ServerNotFoundError
+
+.. autoexception:: ServerConfigError

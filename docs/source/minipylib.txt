@@ -4,7 +4,6 @@ minipylib
 =========
 
 .. automodule:: minipylib
-	:show-inheritance:
 
 
 Authors
@@ -13,20 +12,32 @@ Authors
 * Kevin Chan <kefin@makedostudio.com>
 	
 
-Classes, Functions & Constants
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. data:: __author__
+
+.. data:: __version_info__
+
+.. data:: __description__
+
 
 .. data:: VERSION
 
-	Version number for minipylib.
+   Version info, equivalent to ``__version_info__``.
 
 
 .. data:: DESCRIPTION
 
-	Description of minipylib.
+   Short description of this package, equivalent to ``__description__``.
+
+
+.. data:: AUTHOR
+
+   The package author as a string, equivalent to ``__author__``.
 
 
 .. data:: AUTHORS
 
-	Minipylib authors.
+   The package author as a tuple, equivalent to ``(__author__,)``.
+
+
+.. autofunction:: get_version
 

@@ -1,0 +1,12 @@
+.. _server.apps:
+
+minipylib.server.apps
+=====================
+
+.. automodule:: minipylib.server.apps
+    :show-inheritance:
+
+
+.. autofunction:: test_app
+
+.. autofunction:: get_django_app
