@@ -2,11 +2,19 @@
 """
 minipylib.utils
 
-Utility functions.
+This module contains helpers functions and definitions for:
 
-* created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-31 kchan
+* loading modules during runtime;
+* doing basic I/O (read, write, delete files);
+* converting strings and bytes;
+* creating special objects for storing and accessing data (DataObject);
+* and logging to a file.
+
+
 """
+
+# created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-09-02 kchan
 
 from __future__ import (absolute_import, unicode_literals, print_function)
 
@@ -25,7 +33,9 @@ import logging
 def add_to_sys_path(path, append=False):
     """
     Add directory to ``sys.path``.
-    * This function will add the path only if it's not already in sys.path.
+
+    This function will add the path only if it's not already in
+    sys.path.
 
     :param path: module directory to add to ``sys.path``.
     :param append: if True, append to sys.path, else insert.
@@ -42,8 +52,10 @@ def add_to_sys_path(path, append=False):
 def import_module(path, module_name=None):
     """
     Import module from path.
-    * based on code from the following:
-    http://stackoverflow.com/questions/1096216/override-namespace-in-python
+
+    Based on code from the following:
+
+    :source: http://stackoverflow.com/questions/1096216/override-namespace-in-python
 
     :param path: full path to module to import
     :param module_name: name to map module in sys.modules
@@ -129,7 +141,7 @@ def import_module_settings(module):
     """
     Import settings from module.
 
-    * only global vars in ALL CAPS are imported.
+    Only global vars in ALL CAPS are imported.
 
     :param module: name of module to import from.
     :returns: imported settings or `None` on error.
@@ -171,7 +183,7 @@ def open_file(path, mode=None, encoding=None, **kwargs):
     :param path: path of file to read.
     :param mode: "b" for bytes or "t" for text (default is "t")
     :param encoding: file encoding for text (default is `utf-8`).
-    returns: stream object for reading/writing
+    :returns: stream object for reading/writing
     """
     try:
         from io import open as _open
@@ -184,8 +196,9 @@ def open_file(path, mode=None, encoding=None, **kwargs):
 def get_file_contents(path, mode=None, encoding=None, **kwargs):
     """
     Load text file from file system and return content as text.
-    * this function reads the entire content of the file before
-      returning the data as a string or as bytes.
+
+    This function reads the entire content of the file before
+    returning the data as a string or as bytes.
 
     :param path: path of file to read.
     :param mode: "b" for bytes or "t" for text (default is "t")
@@ -239,8 +252,7 @@ def write_file(path, data, mode=None, encoding=None, **kwargs):
 
 def delete_file(path):
     """
-    Truncates file to zero size and
-    tries to unlink file if possible.
+    Truncates file to zero size and tries to unlink file if possible.
 
     :param path: file system path for file
     :returns: True if file is unlinked (no longer found) else False
@@ -262,11 +274,11 @@ def uri_to_list(path, path_sep=PATH_SEP):
     """
     Parse request path and split uri into list.
 
-    * ``/action/param1/param2`` will be parsed as::
+    ``/action/param1/param2`` will be parsed as::
 
         ['action', 'param1', 'param2']
 
-    * does not handle query strings
+    Note: Does not handle query strings
 
     :param path: uri (minus scheme and domain)
     :param path_sep: path separator (default is /)
@@ -282,54 +294,67 @@ def uri_to_list(path, path_sep=PATH_SEP):
     return path.split('/')
 
 
-# data object class for storing generic dict key/value pairs
-# * based on the Storage class from web.py
-#
-# class Storage(dict):
-#   """
-#   A Storage object is like a dictionary except `obj.foo` can be used
-#   in addition to `obj['foo']`.
-#
-#       >>> o = storage(a=1)
-#       >>> o.a
-#       1
-#       >>> o['a']
-#       1
-#       >>> o.a = 2
-#       >>> o['a']
-#       2
-#       >>> del o.a
-#       >>> o.a
-#       Traceback (most recent call last):
-#           ...
-#       AttributeError: 'a'
-#
-#   """
-#   def __getattr__(self, key):
-#       try:
-#           return self[key]
-#       except KeyError, k:
-#           raise AttributeError, k
-#
-#   def __setattr__(self, key, value):
-#       self[key] = value
-#
-#   def __delattr__(self, key):
-#       try:
-#           del self[key]
-#       except KeyError, k:
-#           raise AttributeError, k
-#
-#   def __repr__(self):
-#       return '<Storage ' + dict.__repr__(self) + '>'
-#
-
 class DataObject(dict):
     """
-    Data object class.
+    Data object class for storing generic key/value pairs as in a `dict`.
+    Values can be accessed using ``obj['key']`` or ``obj.key``.
 
-    * based on ``webpy`` dict-like Storage object
+    Based on ``webpy``'s dict-like Storage object::
+
+        class Storage(dict):
+            '''
+            A Storage object is like a dictionary except `obj.foo` can be used
+            in addition to `obj['foo']`.
+
+                >>> o = storage(a=1)
+                >>> o.a
+                1
+                >>> o['a']
+                1
+                >>> o.a = 2
+                >>> o['a']
+                2
+                >>> del o.a
+                >>> o.a
+                Traceback (most recent call last):
+                  ...
+                AttributeError: 'a'
+
+            '''
+            def __getattr__(self, key):
+                try:
+                    return self[key]
+                except KeyError, k:
+                    raise AttributeError, k
+
+            def __setattr__(self, key, value):
+                self[key] = value
+
+            def __delattr__(self, key):
+                try:
+                    del self[key]
+                except KeyError, k:
+                    raise AttributeError, k
+
+            def __repr__(self):
+                return '<Storage ' + dict.__repr__(self) + '>'
+
+    Usage::
+
+        data = DataObject(name='foo', parent='bar')
+        data.add({
+            'a': 1,
+            'b': 3.14,
+            'c': 'foo'
+        })
+        assert data.name == 'foo'
+        assert data.parent == 'bar'
+        assert data.a == 1
+        assert data.b == 3.14
+        assert data.c == 'foo'
+
     """
+
     def __init__(self, *args, **kwargs):
         self.add(*args, **kwargs)
 
@@ -353,11 +378,8 @@ class DataObject(dict):
 
     def add(self, *args, **kwargs):
         """
-        add({
-            'a': 1,
-            'b': 3.14,
-            'c': 'foo'
-        })
+        Method to add a ``list/tuple`` of items or a ``dict`` to the
+        object.
         """
         def add_dict(d):
             for name, value in d.items():
@@ -555,16 +577,44 @@ def safe_str(obj, encoding='utf-8'):
         return str(obj)
 
 
+def s2b(s, encoding='utf-8'):
+    """
+    Convert (unicode) string to bytes by encoding to
+    ``encoding`` first.
+
+    Default encoding is *utf-8*.
+
+    :param s: string
+    :returns: string data converted to bytes
+    """
+    if isinstance(s, (float, six.integer_types)):
+        return bytes(str(s))
+    else:
+        return bytes(s.encode(encoding))
+
+
+def b2s(b, encoding='utf-8'):
+    """
+    Convert bytes back to (unicode) string.
+
+    Default encoding is *utf-8*.
+
+    :param b: byte data
+    :returns: data converted to (unicode) string.
+    """
+    return unicode(b.decode(encoding))
+
+
 # simple logger
 
 log_levels = {
-            'notset': logging.NOTSET,
-            'debug': logging.DEBUG,
-            'info': logging.INFO,
-            'warning': logging.WARNING,
-            'error': logging.ERROR,
-            'critical': logging.CRITICAL
-        }
+    'notset': logging.NOTSET,
+    'debug': logging.DEBUG,
+    'info': logging.INFO,
+    'warning': logging.WARNING,
+    'error': logging.ERROR,
+    'critical': logging.CRITICAL
+}
 
 log_fmt = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
@@ -572,8 +622,8 @@ def create_log(logname, logfile=None, level='debug', format=log_fmt):
     """
     Create and return simple file logger.
 
-    * level is keyword in `log_levels` (`notset`, `debug`, `info`, etc.)
-    * format is format of log entry to output
+    * ``level`` is keyword in `log_levels` (`notset`, `debug`, `info`, etc.)
+    * ``format`` is format of log entry to output
 
     :More info: `<http://docs.python.org/library/logging.html>`_
 
