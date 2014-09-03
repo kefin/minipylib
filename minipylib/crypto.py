@@ -13,7 +13,7 @@ functions and classes:
 """
 
 # created: 2012-06-25 Kevin Chan <kefin@makedostudio.com>
-# updated: 2014-08-29 kchan
+# updated: 2014-09-03 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 
@@ -31,8 +31,6 @@ except ImportError:
     import pickle
 
 from Crypto.Cipher import AES
-
-
 
 
 ### AES encryption/decryption
@@ -109,7 +107,7 @@ class Cipher(object):
 
     Note: the hash and encrypt/decrypt functions require byte data so
     unicode text need to be encoded as bytes before feeding into this
-    object.    
+    object.
     """
     iv_size = AES.block_size
     mode = AES.MODE_CFB
@@ -350,7 +348,6 @@ def md5_for_file(path, block_size=2**10):
     :returns: md5 hash in hex
     """
     return file_digest(path, block_size=block_size, hashfunc=hashlib.md5)
-
 
 
 ### make hmac digest
