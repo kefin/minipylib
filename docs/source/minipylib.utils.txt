@@ -68,9 +68,15 @@ minipylib.utils
 
 
 .. autofunction:: safe_unicode
+
 .. autofunction:: safe_str
 
     :More info: `<http://code.activestate.com/recipes/466341-guaranteed-conversion-to-unicode-or-byte-string/>`_
+
+.. autofunction:: s2b
+
+.. autofunction:: b2s
+
 
 .. autofunction:: create_log
 
