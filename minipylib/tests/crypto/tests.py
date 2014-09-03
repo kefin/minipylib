@@ -13,6 +13,9 @@ from __future__ import (absolute_import, unicode_literals)
 from minipylib.tests.helpers import SimpleTestCase
 
 
+# from project gutenberg:
+# http://www.gutenberg.org/ebooks/12479
+
 example_text_file = 'san-zi-jing.txt'
 example_text = """\
 Title:San Zi Jing[220-581 A.D.]
