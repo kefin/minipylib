@@ -265,16 +265,30 @@ class CryptoTests(SimpleTestCase):
     def test_make_digest(self):
         """
         Ensure make_digest function is working properly.
+
+        # ----------------------------------------------------------------------
+        # test             : make_digest
+        # secret_key_byte_str : écriture 寫作
+        # data             : [u'abc', u'def', u'ghi', u'4321', u'\xe9criture \u5beb\u4f5c']
+        # digest_data      : ['abc', 'def', 'ghi', '4321', '\xc3\xa9criture \xe5\xaf\xab\xe4\xbd\x9c']
+        # expected         : 613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f
+        # digest           : 613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f
+        
         """
         from minipylib.crypto import make_digest
+        from minipylib.utils import safe_str
         self._msg('test', 'make_digest', first=True)
         txt = 'écriture 寫作'
         secret_key = txt
-        data = ['abc', 'def', 'ghi', '4321']
-        digest = make_digest(secret_key, 'abc', hexdigest=True)
-        expected = '6426a4b12a28ff6896e1383a6952167380a50d345b3e2af8c9f7ce5b28bc6804'
+        data = ['abc', 'def', 'ghi', '4321', 'écriture 寫作']
+        secret_key_byte_str = safe_str(secret_key)
+        digest_data = [safe_str(s) for s in data]
+        self._msg('secret_key_byte_str', secret_key_byte_str)
+        digest = make_digest(secret_key_byte_str, *digest_data, hexdigest=True)
+        expected = '613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f'
         self.assertEqual(digest, expected)
-        self._msg('data', repr(data))
+        self._msg('data', data)
+        self._msg('digest_data', digest_data)
         self._msg('expected', expected)
         self._msg('digest', digest)
 

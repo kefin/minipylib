@@ -3,11 +3,13 @@
 minipylib.server.backends.cherrypy_server
 
 Define a wsgi server object based on CherryPy's wsgiserver.
-* This module requires cherrypy as an installed package.
 
-* created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
+TThis module requires cherrypy as an installed package.
+
 """
+
+# created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-30 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 

@@ -4,9 +4,10 @@ minipylib.server.backends.simple_server
 
 Define a wsgi server object based on the Python simple_server.
 
-* created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
 """
+
+# created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-30 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 

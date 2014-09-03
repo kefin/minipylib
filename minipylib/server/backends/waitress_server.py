@@ -4,9 +4,10 @@ minipylib.server.backends.waitress_server
 
 Define a wsgi server object based on waitress.
 
-* created: 2014-08-30 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-30 kchan
 """
+
+# created: 2014-08-30 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-30 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 

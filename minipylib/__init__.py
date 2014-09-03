@@ -3,11 +3,12 @@
 minipylib
 
 Minipylib is a small library of utility functions
-for developing python web applications.
+for developing Python web applications.
 
-* created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
 """
+
+# created: 2010-07-31 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-29 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 

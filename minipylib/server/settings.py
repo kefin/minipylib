@@ -4,9 +4,10 @@ minipylib.server.settings
 
 Default settings for the server module.
 
-* created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
 """
+
+# created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-29 kchan
 
 from __future__ import unicode_literals
 

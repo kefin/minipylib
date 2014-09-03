@@ -2,13 +2,18 @@
 """
 minipylib.crypto
 
-Cryptographic and encoding/decoding functions.
-* These are wrapper functions that require the PyCrypto toolkit:
-  https://www.dlitz.net/software/pycrypto/
+This module contains functions to encrypt/decode data, create hash
+digests and generate random passwords/secret keys.
 
-* created: 2012-06-25 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
+Encryption and decryption use the PyCrypto toolkit's AES encryption
+functions and classes:
+
+:info: https://www.dlitz.net/software/pycrypto/
+
 """
+
+# created: 2012-06-25 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-29 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 
@@ -57,7 +62,11 @@ from Crypto.Cipher import AES
 
 
 class CipherError(Exception):
+    """
+    Raised when there is an error in the Cipher encode/decode operation.
+    """
     pass
+
 
 class Cipher(object):
     """
@@ -66,11 +75,11 @@ class Cipher(object):
     Reference links:
 
     PyCrypto
-        http://www.pycrypto.org/
-        https://www.dlitz.net/software/pycrypto/
+        * http://www.pycrypto.org/
+        * https://www.dlitz.net/software/pycrypto/
 
     Eli Bendersky's website > AES encryption of files in Python with PyCrypto
-        http://bit.ly/KXmxJM
+        * http://bit.ly/KXmxJM
 
     Example usage::
 
@@ -342,19 +351,31 @@ def md5_for_file(path, block_size=2**10):
 
 def make_digest(secret_key, *args, **kwargs):
     """
-    Return a hmac digest for arguments.
-    * Note: HMAC does not accept unicode so we have to convert `secret_key`
-      to a byte string.
-    * See: http://stackoverflow.com/questions/20849805/python-hmac-typeerror-character-mapping-must-return-integer-none-or-unicode
-    * And: http://bugs.python.org/issue5285
+    Return an ``HMAC`` digest for arguments.
 
     :param secret_key: secret password to use for creating hash digest
+    :param args: a list of byte strings to calculate digest from
     :param digestmod: keyword argument for digest module (default: DefaultHash)
     :param hexdigest: if True, return hexdigest format, else regular binary
-    :returns: string (in hexdigest format)
+    :returns: digest (in hexdigest format if ``hexdigest`` is set to True)
+
+    Note: HMAC does not accept unicode (in PY3) so ``secret_key`` must
+    be a byte string.
+
+    See this comment from: http://bugs.python.org/issue16063#msg172263
+
+        HMAC and all cryptographic hashing algorithms work with bytes
+        only. Text (unicode) is neither specified by the standards nor
+        supported. You have to convert your text to bytes with some
+        encoding (e.g. ASCII or UTF-8).
+    
+    :More info:
+
+        * http://stackoverflow.com/questions/20849805/python-hmac-typeerror-character-mapping-must-return-integer-none-or-unicode
+        * http://bugs.python.org/issue5285
+        * http://bugs.python.org/issue16063
+
     """
-    from minipylib.utils import safe_str
-    secret_key = safe_str(secret_key)
     digestmod = kwargs.get('digestmod', DefaultHash)
     h = hmac.new(secret_key, digestmod=digestmod)
     for arg in args:
@@ -382,29 +403,35 @@ def gen_secret_key(keysize=DEFAULT_KEY_SIZE,
                    charset=DEFAULT_KEY_CHAR_SET,
                    key_string=None):
     """
-    Returns a random ascii string of length 'keysize'
-    * caller should specify character set to use:
-      a: ascii letters
-      u: ascii uppercase letters
-      l: ascii lowercase letters
-      n: numerals
-      p: punctuations
-    * example -- generate a 64-character key consisting of lowercase
-      ascii + digits:
-
-        key = gen_secret_key(64, charset='ln')
-
-    * if ``key_string`` is specified, function will ignore ``charset``
-      parameter.
-    * for non-ascii characters, supply custom key string in ``key_string``.
-      example:
-
-        key = gen_secret_key(64, key_string=string.letters+string.digits)
+    Returns a random ascii string of length ``keysize``
 
     :param keysize: length of key to generate (default is 72)
     :param charset: string of character sets to use (a, l, u, n, p)
     :param key_string: use provided string for key characters
     :returns: random string or None if error
+
+    Caller should specify character set to use: ::
+
+        a: ascii letters
+        u: ascii uppercase letters
+        l: ascii lowercase letters
+        n: numerals
+        p: punctuations
+
+    Example: Generate a 64-character key consisting of lowercase
+    ascii + digits: ::
+
+        key = gen_secret_key(64, charset='ln')
+
+    If ``key_string`` is specified, function will ignore ``charset``
+    parameter.
+
+    For non-ascii characters, supply custom key string in ``key_string``.
+    example: ::
+
+        import string
+        key = gen_secret_key(64, key_string=string.letters+string.digits)
+
     """
     if key_string and isinstance(key_string, six.string_types):
         chars = key_string

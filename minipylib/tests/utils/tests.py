@@ -142,7 +142,7 @@ class UtilsTests(SimpleTestCase):
         self._msg('data type', type(data))
         self._msg('data', repr(data), linebreak=True)
 
-        
+
     def test_write_file(self):
         """
         Ensure write_file function is working properly.
@@ -399,3 +399,44 @@ class UtilsTests(SimpleTestCase):
         self.assertTrue(found)
         self._msg('found in line', line)
         os.unlink(path)
+
+
+    def test_str_conv(self):
+        """
+        Ensure s2b and b2s conversion functions are working properly.
+        """
+        from minipylib.utils import s2b, b2s
+        self._msg('test', 'test_str_conv', first=True)
+
+        txt1 = 'écriture 寫作'
+        txt2 = 'Ivan Krstić'
+        txt3 = '\u1234'
+        txt4 = 'abc'
+        
+        data = [6, 3.14159, -5e8, 5e-3, -15.8, txt4, 'def', 'ghi',
+                4321, txt1, txt2, txt3]
+        data_bytes = [s2b(s) for s in data]
+        data_reconverted = [b2s(s) for s in data_bytes]
+
+        self._msg('data', data)
+        for n, s in enumerate(data):
+            self.assertTrue(isinstance(s,
+                                       (float,
+                                        six.integer_types,
+                                        six.string_types,
+                                        six.text_type)))
+            self._msg(n, s)
+
+        self._msg('data_bytes', data_bytes)
+        for n, s in enumerate(data_bytes):
+            self.assertTrue(isinstance(s, six.binary_type))
+            self._msg(n, repr(s))
+
+        self._msg('data_reconverted', data_reconverted)
+        for n, s in enumerate(data_reconverted):
+            expected = data[n]
+            if isinstance(expected, (float, six.integer_types)):
+                expected = str(expected)
+            self.assertEqual(s, expected)
+            self.assertTrue(isinstance(s, (six.string_types, six.text_type)))
+            self._msg(n, s)

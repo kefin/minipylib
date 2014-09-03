@@ -8,33 +8,32 @@ server.
 This modules allows you to configure and test your wsgi backend to use
 a number of different wsgi servers -- the Python built-in
 simple_server, the CherryPy wsgiserver, uwsgi, Linden Lab's eventlet,
-fapws3, gevent, and bjoern.
+fapws3, gevent, bjoern, and waitress.
 
 Included in the minipylib distribution is a copy of the threaded
 wsgiserver from `CherryPy <http://www.cherrypy.org/>`_. The
 *wsgiserver* is the default server for the *minipylib.server* module.
 
-``server_registry`` is dict of available servers.
-
 * Unimportable servers will not be entered into the registry.
+
 * The default server is CherryPy's wsgiserver (included in
-  backends/cherrypy_wsgiserver directory)
+  the ``backends/cherrypy_wsgiserver`` directory)
 
 Supported servers:
 
-* wsgiserver: CherryPy wsgiserver (included in minipylib)
-* cherry: CherryPy wsgiserver from package
-* fapws: fapws3
-* simple_server: python built-in wsgiref.simple_server
-* uwsgi: uwsgi
-* eventlet: Linden Lab eventlet
-* gevent: gevent
-* bjoern: bjoern
-* waitress: waitress
+    * wsgiserver: CherryPy wsgiserver (included in minipylib)
+    * cherry: CherryPy wsgiserver from package
+    * fapws: fapws3
+    * simple_server: python built-in wsgiref.simple_server
+    * uwsgi: uwsgi
+    * eventlet: Linden Lab eventlet
+    * gevent: gevent
+    * bjoern: bjoern
+    * waitress: waitress
 
-* created: 2009-09-11 kevin chan <kefin@makedostudio.com>
-* updated: 2014-09-02 kchan
 """
+# created: 2009-09-11 kevin chan <kefin@makedostudio.com>
+# updated: 2014-09-02 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 
@@ -67,7 +66,7 @@ def make_server(server_name=None, **params):
     Return a Server adaptor object according to supplied params.
 
     To run server, create a Python file like the following and execute
-    it using the interpreter or through a startup daemon script:
+    it using the interpreter or through a startup daemon script::
 
         from minipylib.server import make_server
 
@@ -96,6 +95,7 @@ def make_server(server_name=None, **params):
 
 
 def get_web_server(**params):
+    """Same as ``make_server``."""
     return make_server(**params)
 
 

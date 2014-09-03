@@ -4,9 +4,10 @@ minipylib.server.utils
 
 Helpers functions for the server module.
 
-* created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
 """
+
+# created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
+# updated: 2014-08-29 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 
@@ -19,8 +20,10 @@ from __future__ import (absolute_import, unicode_literals)
 #######################################################################
 
 def get_uid_gid(user, group=None):
-    """Try to change UID and GID to the provided values.
-    user and group are given as names like 'nobody' not integer.
+    """
+    Retrieve the ``uid`` and ``gid`` corresponding to ``user`` and ``group``.
+
+    User and group are given as names like 'nobody' not integer.
 
     :Source: `http://mail.mems-exchange.org/durusmail/quixote-users/4940/1/ <http://mail.mems-exchange.org/durusmail/quixote-users/4940/1/>`_
 
