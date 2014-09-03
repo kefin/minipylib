@@ -6,17 +6,35 @@
 minipylib |release|
 ===================
 
+:author: Kevin Chan <kefin@makedostudio.com>
+
 Minipylib is a small library of utility functions for developing
 Python web applications. These functions do not require specific
-frameworks (like Django, CherryPy, etc.) so they should work with all
-Python code.
+frameworks so they should work with all Python code.
+
+External Dependencies
+---------------------
+
+* *Minipylib.crypto* requires the `PyCrypto toolkit`_
+
+* The *minipylib.server* module includes a local version of the
+  `CherryPy`_ wsgi server but if you want to configure this package to
+  use another server (*uwsgi*, *gevent*, *eventlet*, etc.)  you will
+  need to install that in your *site-packages*. See the
+  :ref:`server` section on how to configure
+  *minipylib* to run a wsgi server.
+
+.. _PyCrypto toolkit: https://www.dlitz.net/software/pycrypto/
+.. _CherryPy: http://www.cherrypy.org
 
 
-Contents:
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
-   
+
    install
    minipylib
    minipylib.crypto
@@ -29,10 +47,10 @@ Contents:
    minipylib.server.utils
    minipylib.utils
 
+
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

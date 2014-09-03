@@ -5,39 +5,5 @@ minipylib
 
 .. automodule:: minipylib
 
-
-Authors
-~~~~~~~
-
-* Kevin Chan <kefin@makedostudio.com>
-	
-
-.. data:: __author__
-
-.. data:: __version_info__
-
-.. data:: __description__
-
-
-.. data:: VERSION
-
-   Version info, equivalent to ``__version_info__``.
-
-
-.. data:: DESCRIPTION
-
-   Short description of this package, equivalent to ``__description__``.
-
-
-.. data:: AUTHOR
-
-   The package author as a string, equivalent to ``__author__``.
-
-
-.. data:: AUTHORS
-
-   The package author as a tuple, equivalent to ``(__author__,)``.
-
-
 .. autofunction:: get_version
 

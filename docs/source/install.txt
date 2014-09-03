@@ -1,19 +1,18 @@
 .. _install:
 
 Installation
-~~~~~~~~~~~~
+============
 
-To install **minipylib**, do::
+To install *minipylib* in your ``site-packages``, do: ::
 
 	cd /path/to/minipylib/directory
 	python setup.py install
 
 
 Documentation
-~~~~~~~~~~~~~
+-------------
 
-
-To build these documentation, cd to ``docc`` directory and do::
+To build these documentation, cd to ``docs`` directory and do: ::
 
     make html
 
