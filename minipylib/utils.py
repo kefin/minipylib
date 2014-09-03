@@ -34,11 +34,11 @@ def add_to_sys_path(path, append=False):
     """
     Add directory to ``sys.path``.
 
-    This function will add the path only if it's not already in
-    sys.path.
-
     :param path: module directory to add to ``sys.path``.
     :param append: if True, append to sys.path, else insert.
+
+    * This function will add the path only if it's not already in
+      *sys.path*.
     """
     if os.path.isdir(path) and not path in sys.path:
         if append:
@@ -53,13 +53,13 @@ def import_module(path, module_name=None):
     """
     Import module from path.
 
-    Based on code from the following:
-
-    :source: http://stackoverflow.com/questions/1096216/override-namespace-in-python
-
     :param path: full path to module to import
     :param module_name: name to map module in sys.modules
     :returns: imported module
+
+    Based on code from the following:
+
+    :source: http://stackoverflow.com/questions/1096216/override-namespace-in-python
     """
     if not module_name:
         m = hashlib.sha1()
@@ -105,16 +105,16 @@ def import_module_vars(module, varnames=None):
     """
     Import vars from module.
 
-    Example::
-
-        data = import_module_vars('webapp.urls', 'URLS')
-
-    :More info: `<http://stackoverflow.com/questions/2259427/load-python-code-at-runtime>`_
-
     :param module: module name.
     :param varnames: list of vars to import (defaults to None)
     :returns: None on error, otherwise `dict` of name/values. If no `args`,
         return module `__dict__`.
+
+    Example: ::
+
+        data = import_module_vars('webapp.urls', 'URLS')
+
+    :More info: `<http://stackoverflow.com/questions/2259427/load-python-code-at-runtime>`_
     """
     try:
         m = __import__(module, globals(), locals(), varnames, -1)
@@ -141,10 +141,10 @@ def import_module_settings(module):
     """
     Import settings from module.
 
-    Only global vars in ALL CAPS are imported.
-
     :param module: name of module to import from.
     :returns: imported settings or `None` on error.
+
+    Only global vars in ALL CAPS are imported.
     """
     data = import_module_vars(module)
     try:
@@ -197,13 +197,13 @@ def get_file_contents(path, mode=None, encoding=None, **kwargs):
     """
     Load text file from file system and return content as text.
 
-    This function reads the entire content of the file before
-    returning the data as a string or as bytes.
-
     :param path: path of file to read.
     :param mode: "b" for bytes or "t" for text (default is "t")
     :param encoding: file encoding for text (default is `utf-8`).
     :returns: file content as string or `None` if file cannot be read.
+
+    This function reads the entire content of the file before
+    returning the data as a string or as bytes.
     """
     try:
         assert path is not None and os.path.isfile(path)
@@ -252,7 +252,7 @@ def write_file(path, data, mode=None, encoding=None, **kwargs):
 
 def delete_file(path):
     """
-    Truncates file to zero size and tries to unlink file if possible.
+    Truncates file to zero size and unlinks file.
 
     :param path: file system path for file
     :returns: True if file is unlinked (no longer found) else False
@@ -274,15 +274,15 @@ def uri_to_list(path, path_sep=PATH_SEP):
     """
     Parse request path and split uri into list.
 
+    :param path: uri (minus scheme and domain)
+    :param path_sep: path separator (default is /)
+    :returns: list of path components
+
     ``/action/param1/param2`` will be parsed as::
 
         ['action', 'param1', 'param2']
 
     Note: Does not handle query strings
-
-    :param path: uri (minus scheme and domain)
-    :param path_sep: path separator (default is /)
-    :returns: list of path components
     """
     try:
         if path[0] == path_sep:
@@ -582,10 +582,10 @@ def s2b(s, encoding='utf-8'):
     Convert (unicode) string to bytes by encoding to
     ``encoding`` first.
 
-    Default encoding is *utf-8*.
-
     :param s: string
     :returns: string data converted to bytes
+
+    Default encoding is *utf-8*.
     """
     if isinstance(s, (float, six.integer_types)):
         return bytes(str(s))
@@ -597,10 +597,10 @@ def b2s(b, encoding='utf-8'):
     """
     Convert bytes back to (unicode) string.
 
-    Default encoding is *utf-8*.
-
     :param b: byte data
     :returns: data converted to (unicode) string.
+
+    Default encoding is *utf-8*.
     """
     return unicode(b.decode(encoding))
 
@@ -622,16 +622,16 @@ def create_log(logname, logfile=None, level='debug', format=log_fmt):
     """
     Create and return simple file logger.
 
-    * ``level`` is keyword in `log_levels` (`notset`, `debug`, `info`, etc.)
-    * ``format`` is format of log entry to output
-
-    :More info: `<http://docs.python.org/library/logging.html>`_
-
     :param logname: name of log.
     :param logfile: path of log file.
     :param level: log level (see ``log_levels``).
     :param format: log entry format (default is ``log_fmt``).
     :returns: logger object.
+
+    * ``level`` is keyword in `log_levels` (`notset`, `debug`, `info`, etc.)
+    * ``format`` is format of log entry to output
+
+    :More info: `<http://docs.python.org/library/logging.html>`_
     """
     log_level = log_levels.get(level)
     logger = logging.getLogger(logname)
