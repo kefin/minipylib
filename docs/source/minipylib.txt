@@ -5,5 +5,20 @@ minipylib
 
 .. automodule:: minipylib
 
-.. autofunction:: get_version
+The *minipylib* module contains the version data for the package, along with
+a summary description and author string. These can be accessed using the
+following varibles:
 
+.. data:: __version_info__
+
+    ``__version_info__`` is a tuple of this package's *major*, *minor*
+    and *micro* version numbers (e.g. ``(0, 2, 9)``).
+
+.. data:: __version__
+
+    ``__version__`` is a string representation of ``__version_info__``
+    (e.g. "0.2.9").
+
+    The version string can also be accessed through ``VERSION``.
+
+.. autofunction:: get_version
