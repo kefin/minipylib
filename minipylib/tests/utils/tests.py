@@ -5,7 +5,7 @@ tests.utils.tests
 Tests for minipylib.utils
 
 * created: 2014-08-29 Kevin Chan <kefin@makedostudio.com>
-* updated: 2014-08-29 kchan
+* updated: 2014-09-02 kchan
 """
 
 from __future__ import (absolute_import, unicode_literals)
