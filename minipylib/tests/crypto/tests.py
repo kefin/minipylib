@@ -266,27 +266,29 @@ class CryptoTests(SimpleTestCase):
         """
         Ensure make_digest function is working properly.
 
-        # ----------------------------------------------------------------------
         # test             : make_digest
-        # secret_key_byte_str : écriture 寫作
-        # data             : [u'abc', u'def', u'ghi', u'4321', u'\xe9criture \u5beb\u4f5c']
-        # digest_data      : ['abc', 'def', 'ghi', '4321', '\xc3\xa9criture \xe5\xaf\xab\xe4\xbd\x9c']
-        # expected         : 613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f
-        # digest           : 613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f
+        # secret_key       : écriture 寫作
+        # secret_key_bytes : '\xc3\xa9criture \xe5\xaf\xab\xe4\xbd\x9c'
+        # data             : [3.14159, u'abc', u'def', u'ghi', u'4321', u'\xe9criture \u5beb\u4f5c', u'\u1234']
+        # digest_data      : ['3.14159', 'abc', 'def', 'ghi', '4321', '\xc3\xa9criture \xe5\xaf\xab\xe4\xbd\x9c', '\xe1\x88\xb4']
+        # expected         : 88eb22670a7e9a454df26670ce0ff9838013fabfedac978a4c2539b7a3db9de9
+        # digest           : 88eb22670a7e9a454df26670ce0ff9838013fabfedac978a4c2539b7a3db9de9
         
         """
         from minipylib.crypto import make_digest
-        from minipylib.utils import safe_str
+        from minipylib.utils import s2b
         self._msg('test', 'make_digest', first=True)
-        txt = 'écriture 寫作'
-        secret_key = txt
-        data = ['abc', 'def', 'ghi', '4321', 'écriture 寫作']
-        secret_key_byte_str = safe_str(secret_key)
-        digest_data = [safe_str(s) for s in data]
-        self._msg('secret_key_byte_str', secret_key_byte_str)
-        digest = make_digest(secret_key_byte_str, *digest_data, hexdigest=True)
-        expected = '613dfc2bf960701f5a25bd1653209a80153b87e343dbad427ca8fec8f0822a0f'
+        secret_key = 'écriture 寫作'
+        data = [3.14159, 'abc', 'def', 'ghi', '4321', 'écriture 寫作', '\u1234']
+        # convert secret_key and data using s2b (string-to-bytes) function
+        # before feeding to make_digest.
+        secret_key_bytes = s2b(secret_key)
+        digest_data = [s2b(s) for s in data]
+        digest = make_digest(secret_key_bytes, *digest_data, hexdigest=True)
+        expected = '88eb22670a7e9a454df26670ce0ff9838013fabfedac978a4c2539b7a3db9de9'
         self.assertEqual(digest, expected)
+        self._msg('secret_key', secret_key)
+        self._msg('secret_key_bytes', repr(secret_key_bytes))
         self._msg('data', data)
         self._msg('digest_data', digest_data)
         self._msg('expected', expected)
