@@ -28,8 +28,15 @@ AUTHORS = (__author__,)
 
 def get_version(version=None):
     """
-    Returns a PEP 440 version string (in the form of major.minor.micro).
-    Http://legacy.python.org/dev/peps/pep-0440/
+    Returns a PEP 440 version string (in the form of major.minor.micro)
+    for any ``(major, minor, micro)`` tuple.
+
+    :param version: tuple of (major, minor, micro) version numbers
+    
+    :see: http://legacy.python.org/dev/peps/pep-0440/
+
+    If no version is supplied as a parameter, will return this package's
+    version string.
     """
     if version is None:
         version = __version_info__
