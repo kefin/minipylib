@@ -117,38 +117,6 @@ class Webserver(object):
         server_user
         server_group
 
-    Default settings::
-
-        DEFAULT_SERVER = 'wsgiserver'
-        DEFAULT_SERVER_HOST = '127.0.0.1'
-        DEFAULT_SERVER_PORT = 8080
-
-        DEFAULT_SERVER_USER = 'nobody'
-        DEFAULT_SERVER_GROUP = 'nobody'
-
-    How to use
-
-    * create a Python source file called index.py (or whatever you
-      want to name it).
-
-    * in your **index.py**, create an instance of Webserver and provide
-      appropriate parameters for your setup::
-
-        server = Webserver(
-                app=wsgi_application,
-                server=WSGI_SERVER,
-                bind_addr=(WSGI_SERVER_HOST, WSGI_SERVER_PORT)
-        )
-
-    :note: wsgi_application is your wsgi application.
-
-    * run server::
-
-        if __name__=="__main__":
-            server.run()
-
-    * or use a starter up script to start a wsgi server that runs as a daemon.
-
     """
     def __init__(self, **params):
         # older invocation code uses 'wsgi_server' instead of 'server'

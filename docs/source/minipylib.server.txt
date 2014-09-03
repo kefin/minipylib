@@ -14,8 +14,9 @@ minipylib.server
 Legacy Interface
 ----------------
 
-The following are for compatibility with old code that uses the `Webserver` class
-to create a server and will be deprecated in the next minor release.
+.. warning:: The following is for compatibility with legacy code
+    that uses a `Webserver` class to create a server and will be
+    deprecated in the next minor release.
 
 .. autoclass:: Webserver
     :show-inheritance:
