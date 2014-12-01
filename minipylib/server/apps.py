@@ -7,7 +7,7 @@ Wsgi app helper functions for the server module.
 """
 
 # created: 2011-04-17 Kevin Chan <kefin@makedostudio.com>
-# updated: 2014-08-30 kchan
+# updated: 2014-09-30 kchan
 
 from __future__ import (absolute_import, unicode_literals)
 
@@ -50,7 +50,8 @@ def get_django_app(server):
     """
     try:
         import django
-        from django.core.handlers.wsgi import WSGIHandler
+        #from django.core.handlers.wsgi import WSGIHandler
+        from django.core.wsgi import get_wsgi_application
     except ImportError:
         class WSGIHandler(object):
             def __call__(self, environ, start_response):
@@ -77,4 +78,4 @@ def get_django_app(server):
                 return response
         return django_handler
     else:
-        return WSGIHandler()
+        return get_wsgi_application()
